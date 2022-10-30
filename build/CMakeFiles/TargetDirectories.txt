@@ -1,4 +1,0 @@
-/home/oscar/Desktop/Fatty/BTH/Skripting/RaylibCmake/build/CMakeFiles/lua.dir
-/home/oscar/Desktop/Fatty/BTH/Skripting/RaylibCmake/build/CMakeFiles/game.dir
-/home/oscar/Desktop/Fatty/BTH/Skripting/RaylibCmake/build/CMakeFiles/edit_cache.dir
-/home/oscar/Desktop/Fatty/BTH/Skripting/RaylibCmake/build/CMakeFiles/rebuild_cache.dir
