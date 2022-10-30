@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/game.dir/main.cpp.o -o game  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so liblua.a -L/usr/local/lib -lraylib 
