@@ -12,8 +12,16 @@ FILE(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 add_executable(${PROJECT_NAME} main.cpp ${SRC_FILES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib lua)
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+#64-bit system
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/libraylib_amd64.a ${CMAKE_SOURCE_DIR}/libs/liblua.a)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+#32-bit system
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/libraylib_i386.a ${CMAKE_SOURCE_DIR}/libs/liblua.a)
+endif()
+
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(${PROJECT_NAME} PUBLIC libs)
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)
