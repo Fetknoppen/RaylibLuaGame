@@ -1,44 +1,44 @@
 #include "raylib.h"
+#include "lua.hpp"
 
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
+#include <thread>
+#include <string>
+#include <iostream>
+
+#include "Game.hpp"
+
+
+void DumpError(lua_State* L) {
+	if (lua_gettop(L) && lua_isstring(L, -1)) {
+		std::cout << "Lua Error" << lua_tostring(L, -1) << std::endl;
+		lua_pop(L, 1);
+	}
+}
+
+void ConsoleThreadFunction(lua_State* L) {
+	std::string input;
+	while (true) {
+		std::cout << "> ";
+		std::getline(std::cin, input);
+		if (luaL_dostring(L, input.c_str()) != LUA_OK) {
+			DumpError(L);
+		}
+	}
+}
+
 int main(void)
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    lua_State* L = luaL_newstate();
+    luaL_openlibs(L);
+    std::thread consoleThread(ConsoleThreadFunction, L);
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+    Scene scene;
+	Scene::lua_openscene(L, &scene);
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
+	Game game(&scene);
+	game.Run();
 
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-        EndDrawing();
-        //----------------------------------------------------------------------------------
-    }
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
+    consoleThread.detach();
     return 0;
 }
