@@ -6,8 +6,9 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	for (int i = 0; i < (int)m_systems.size(); i++) {
-		delete (m_systems[i]);
+	for(auto& s: m_systems)
+	{
+		delete s;
 	}
 }
 
@@ -52,7 +53,6 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 {
 	lua_newtable(L);
 	luaL_Reg methods[] = {
-		// { "MethodNameInLua", FunctionNameInC }
 		{"CreateEntity", lua_CreateEntity},
 		{"SetComponent", lua_SetComponent},
 		{"GetEntityCount", lua_GetEntityCount},
@@ -80,7 +80,6 @@ Scene* Scene::lua_GetSceneUpValue(lua_State* L)
 		scene = (Scene*)lua_touserdata(L, lua_upvalueindex(1));
 	}
 	return scene;
-	return nullptr;
 }
 
 int Scene::lua_CreateEntity(lua_State* L)
@@ -98,18 +97,12 @@ int Scene::lua_SetComponent(lua_State* L)
 	int entity = (int)lua_tointeger(L, 1);
 	std::string type = lua_tostring(L, 2);
 
-	if (type == "vector3") {
-		Vector3 vec = lua_tovector3(L, 3);
-		scene->SetComponent<Vector3>(entity, vec);
+	
+	if (type == "transform") {
+		TransformComponent transform = lua_totransform(L, 3);
+		scene->SetComponent<TransformComponent>(entity, transform);
 	}
-	if (type == "vector4") {
-		Vector4 vec = lua_tovector4(L, 3);
-		scene->SetComponent<Vector4>(entity, vec);
-	}
-	else if (type == "transform") {
-		Transform transform = lua_totransform(L, 3);
-		scene->SetComponent<Transform>(entity, transform);
-	}
+
 
 	return 0;
 }
@@ -150,11 +143,8 @@ int Scene::lua_HasComponent(lua_State* L)
 	bool hascomponent = false;
 
 	
-	if (type == "vector3") {
+	if (type == "vector") {
 		hascomponent = scene->HasComponents<Vector3>(entity);
-	}
-	else if (type == "vector4") {
-		hascomponent = scene->HasComponents<Vector4>(entity);
 	}
 	else if (type == "transform") {
 		hascomponent = scene->HasComponents<Transform>(entity);
@@ -171,18 +161,13 @@ int Scene::lua_GetComponent(lua_State* L)
 	std::string type = lua_tostring(L, 2);
 
 	
-	if (type == "vector3" && scene->HasComponents<Vector3>(entity)) {
+	if (type == "vector" && scene->HasComponents<Vector3>(entity)) {
 		Vector3& vec = scene->GetComponent<Vector3>(entity);
-		lua_pushvector3(L, vec);
+		lua_pushvector(L, vec);
 		return 1;
 	}
-	if (type == "vector4" && scene->HasComponents<Vector4>(entity)) {
-		Vector4& vec = scene->GetComponent<Vector4>(entity);
-		lua_pushvector4(L, vec);
-		return 1;
-	}
-	else if (type == "transform" && scene->HasComponents<Transform>(entity)) {
-		Transform& transform = scene->GetComponent<Transform>(entity);
+	else if (type == "transform" && scene->HasComponents<TransformComponent>(entity)) {
+		TransformComponent& transform = scene->GetComponent<TransformComponent>(entity);
 		lua_pushtransform(L, transform);
 		return 1;
 	}
@@ -199,7 +184,7 @@ int Scene::lua_RemoveComponent(lua_State* L)
 	std::string type = lua_tostring(L, 2);
 
 	
-	if (type == "vector3") {
+	if (type == "vector") {
 		scene->RemoveComponent<Vector3>(entity);
 	}
 	else if (type == "transform") {

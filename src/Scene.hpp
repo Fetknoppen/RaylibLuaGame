@@ -53,6 +53,7 @@ public:
 private:
 	static Scene* lua_GetSceneUpValue(lua_State* L);
 
+	static int lua_CreateSystem(lua_State* L);
 	static int lua_CreateEntity(lua_State* L);
 	static int lua_SetComponent(lua_State* L);
 	static int lua_GetEntityCount(lua_State* L);

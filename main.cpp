@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "Game.hpp"
+#include "Scene.hpp"
 
 
 void DumpError(lua_State* L) {
@@ -36,8 +37,9 @@ int main(void)
     Scene scene;
 	Scene::lua_openscene(L, &scene);
 
-	Game game(&scene);
-	game.Run();
+	while(true){};
+	// Game game(&scene);
+	// game.Run();
 
     consoleThread.detach();
     return 0;
