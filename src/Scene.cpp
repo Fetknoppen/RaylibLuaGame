@@ -2,6 +2,7 @@
 
 Scene::Scene()
 {
+	
 }
 
 Scene::~Scene()
@@ -52,7 +53,8 @@ void Scene::UpdateSystems(float delta)
 void Scene::lua_openscene(lua_State* L, Scene* scene)
 {
 	lua_newtable(L);
-	luaL_Reg methods[] = {
+	luaL_Reg methods[] = {	// this->luaComponents.push_back("Transform");
+	// this->luaComponents.push_back("Mesh");
 		{"CreateEntity", lua_CreateEntity},
 		{"SetComponent", lua_SetComponent},
 		{"GetEntityCount", lua_GetEntityCount},
@@ -71,6 +73,16 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 	luaL_setfuncs(L, methods, 1); // 1 : one upvalue (lightuserdata)
 
 	lua_setglobal(L, "scene");
+
+	lua_newtable(L);
+	
+	for (int i = 0; i < (int)luaComponents.size(); i++)
+	{
+		lua_pushnumber(L, i);
+		lua_setfield(L, -2, luaComponents[i].c_str());
+	}
+
+	lua_setglobal(L, "ComponentType");
 }
 
 Scene* Scene::lua_GetSceneUpValue(lua_State* L)
@@ -98,9 +110,13 @@ int Scene::lua_SetComponent(lua_State* L)
 	std::string type = lua_tostring(L, 2);
 
 	
-	if (type == "transform") {
+	if (type == "Transform") {
 		TransformComponent transform = lua_totransform(L, 3);
 		scene->SetComponent<TransformComponent>(entity, transform);
+	}
+	else if(type == "Mesh"){
+		MeshComponent meshComp(lua_tostring(L, 3));
+		scene->SetComponent<MeshComponent>(entity, meshComp);
 	}
 
 

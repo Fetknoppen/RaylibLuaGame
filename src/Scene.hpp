@@ -10,7 +10,12 @@ class Scene {
 
 	entt::registry m_registry;
 	std::vector<System*> m_systems;
-
+private:
+	inline static const std::vector<std::string> luaComponents
+	{
+		"Transform",
+		"Mesh"
+	};
 public:
 	Scene();
 	~Scene();

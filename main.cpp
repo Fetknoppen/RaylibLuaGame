@@ -34,12 +34,8 @@ int main(void)
     std::thread consoleThread(ConsoleThreadFunction, L);
 
 
-    Scene scene;
-	Scene::lua_openscene(L, &scene);
-
-	while(true){};
-	// Game game(&scene);
-	// game.Run();
+	Game game(L);
+	game.run();
 
     consoleThread.detach();
     return 0;

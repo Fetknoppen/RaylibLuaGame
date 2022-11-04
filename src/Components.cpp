@@ -44,7 +44,6 @@ int PrintVector(lua_State* L)
 	return 0;
 }
 
-
 TransformComponent lua_totransform(lua_State* L, int index)
 {
 	if (!lua_istable(L, index)) {
