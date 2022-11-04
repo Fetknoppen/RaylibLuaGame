@@ -1,15 +1,21 @@
 #pragma once
-#include "entt.hpp"
-#include "lua.hpp"
-#include "Systems.hpp"
 #include <iostream>
 
+#include "entt.hpp"
+#include "lua.hpp"
+
+#include "Systems.hpp"
+#include "ResourceHandler.hpp"
 
 
 class Scene {
 
 	entt::registry m_registry;
 	std::vector<System*> m_systems;
+	ResourceHandler rsHandler;
+
+	Camera camera;
+	
 private:
 	inline static const std::vector<std::string> luaComponents
 	{
@@ -21,6 +27,9 @@ public:
 	~Scene();
 
 public:
+	void init();
+	void draw();
+	void AddSystem(System* system);
 
 	int GetEntityCount();
 
@@ -48,6 +57,8 @@ public:
 
 	void UpdateSystems(float delta);
 
+private:
+	void loadModels();
 
 
 

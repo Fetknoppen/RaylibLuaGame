@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 #include "Scene.hpp"
+#include "Systems.hpp"
 
 class Game
 {
@@ -12,4 +13,7 @@ public:
 private:
     Scene* scene;
     lua_State* L;
+
+private:
+    void setSystems();
 };

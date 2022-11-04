@@ -2,7 +2,6 @@
 
 Scene::Scene()
 {
-	
 }
 
 Scene::~Scene()
@@ -13,6 +12,53 @@ Scene::~Scene()
 	}
 }
 
+void Scene::init()
+{
+	this->loadModels();
+
+
+	this->camera = { 0 };
+    this->camera.position = (Vector3){ 4.0f, 2.0f, 4.0f };
+    this->camera.target = (Vector3){ 0.0f, 1.8f, 0.0f };
+    this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    this->camera.fovy = 60.0f;
+    this->camera.projection = CAMERA_PERSPECTIVE;
+
+	SetCameraMode(camera, CAMERA_FIRST_PERSON);
+
+}
+
+void Scene::draw()
+{
+	BeginMode3D(this->camera);
+
+	auto view = this->m_registry.view<TransformComponent, MeshComponent>();
+	view.each([&](const TransformComponent& transform, const MeshComponent& meshComp)
+	{
+		Model* modelPtr = this->rsHandler.getModel(meshComp.name);
+		if (modelPtr != nullptr)
+		{
+			DrawModel(*modelPtr, transform.position, 0.02f, RED);
+		}
+		else
+		{
+			std::cout<<"Some models are not loaded!\nLoad them manually in 'loadModels' function in Scene.cpp\n";
+		}
+	});
+
+	EndMode3D();
+}
+
+void Scene::loadModels()
+{
+	this->rsHandler.loadModel("UBot-OBJ.obj");
+}
+
+void Scene::AddSystem(System *system)
+{
+	this->m_systems.push_back(system);
+}
+
 int Scene::GetEntityCount()
 {
 	return (int)m_registry.alive();
@@ -21,7 +67,7 @@ int Scene::GetEntityCount()
 int Scene::CreateEntity()
 {
 	int ret = (int)m_registry.create();
-	this->SetComponent<Transform>(ret);
+	this->SetComponent<TransformComponent>(ret);
 	return  ret;
 }
 
@@ -36,7 +82,6 @@ void Scene::RemoveEntity(int entity)
 		m_registry.destroy((entt::entity)entity);
 	}
 	else {
-		std::cout << "Error: Invalid entity" << std::endl;
 	}
 }
 
@@ -159,11 +204,11 @@ int Scene::lua_HasComponent(lua_State* L)
 	bool hascomponent = false;
 
 	
-	if (type == "vector") {
-		hascomponent = scene->HasComponents<Vector3>(entity);
+	if (type == "Transform") {
+		hascomponent = scene->HasComponents<TransformComponent>(entity);
 	}
-	else if (type == "transform") {
-		hascomponent = scene->HasComponents<Transform>(entity);
+	else if (type == "Mesh") {
+		hascomponent = scene->HasComponents<Mesh>(entity);
 	}
 
 	lua_pushboolean(L, hascomponent);
@@ -177,14 +222,14 @@ int Scene::lua_GetComponent(lua_State* L)
 	std::string type = lua_tostring(L, 2);
 
 	
-	if (type == "vector" && scene->HasComponents<Vector3>(entity)) {
-		Vector3& vec = scene->GetComponent<Vector3>(entity);
-		lua_pushvector(L, vec);
-		return 1;
-	}
-	else if (type == "transform" && scene->HasComponents<TransformComponent>(entity)) {
+	if (type == "Transform" && scene->HasComponents<TransformComponent>(entity)) {
 		TransformComponent& transform = scene->GetComponent<TransformComponent>(entity);
 		lua_pushtransform(L, transform);
+		return 1;
+	}
+	else if (type == "Mesh" && scene->HasComponents<MeshComponent>(entity)) {
+		MeshComponent& mesh = scene->GetComponent<MeshComponent>(entity);
+		lua_pushstring(L, mesh.name.c_str());
 		return 1;
 	}
 
@@ -200,11 +245,12 @@ int Scene::lua_RemoveComponent(lua_State* L)
 	std::string type = lua_tostring(L, 2);
 
 	
-	if (type == "vector") {
-		scene->RemoveComponent<Vector3>(entity);
+	
+	if (type == "Transform") {
+		scene->RemoveComponent<TransformComponent>(entity);
 	}
-	else if (type == "transform") {
-		scene->RemoveComponent<Transform>(entity);
+	else if (type == "Mesh") {
+		scene->RemoveComponent<MeshComponent>(entity);
 	}
 	return 0;
 }

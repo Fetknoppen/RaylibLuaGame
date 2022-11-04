@@ -16,8 +16,15 @@ void ResourceHandler::loadModel(std::string modelName)
         std::cout<<"ResourceHandler: model " << modelName << " already loaded"<<std::endl;
         return;
     }
-    Model model = LoadModel(modelName.c_str());
+    std::string path = "../assets/obj/";
+    path += modelName;
+    Model model = LoadModel(path.c_str());
     this->models.insert({modelName, model});
+
+    if(this->models.count(modelName) > 0)
+    {
+        std::cout<<"ResourceHandler: Model "<<modelName<<" loaded correctly\n";
+    }
 };
 Model* ResourceHandler::getModel(std::string modelName)
 {
