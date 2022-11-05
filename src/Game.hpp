@@ -20,7 +20,10 @@ private:
 private:
     void checkMenuSwitch();
     void setSystems();
+    void startMenu();
     void drawMenu();
+    void startGame();
     void drawGame();
+    void startEditor();
     void drawEditor();
 };

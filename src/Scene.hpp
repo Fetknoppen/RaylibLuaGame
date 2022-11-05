@@ -11,7 +11,8 @@
 class Scene {
 
 	entt::registry m_registry;
-	std::vector<System*> m_systems;
+	//std::vector<System*> m_systems;
+	std::unordered_map<std::string, System*> m_systems;
 	ResourceHandler rsHandler;
 
 	Camera camera;
@@ -22,7 +23,8 @@ public:
 public:
 	void init();
 	void draw();
-	void AddSystem(System* system);
+	void AddSystem(std::string name, System* system);
+	void RemoveSystem(std::string name);
 
 	int GetEntityCount();
 
@@ -107,5 +109,6 @@ inline void Scene::RemoveComponent(int entity)
 template<typename T, typename ...Args>
 inline void Scene::CreateSystem(Args ...args)
 {
-	m_systems.emplace_back(new T(args...));
+	m_systems.insert(new T(args...));
+	//m_systems.emplace_back(new T(args...));
 }

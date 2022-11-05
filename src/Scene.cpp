@@ -9,7 +9,7 @@ Scene::~Scene()
 {
 	for(auto& s: m_systems)
 	{
-		delete s;
+		delete s.second;
 	}
 }
 
@@ -46,9 +46,15 @@ void Scene::draw()
 	EndMode3D();
 }
 
-void Scene::AddSystem(System *system)
+void Scene::AddSystem(std::string name, System *system)
 {
-	this->m_systems.push_back(system);
+	this->m_systems.insert({name, system});
+}
+
+void Scene::RemoveSystem(std::string name)
+{
+	delete this->m_systems[name];
+	this->m_systems.erase(name);
 }
 
 int Scene::GetEntityCount()
@@ -79,10 +85,11 @@ void Scene::RemoveEntity(int entity)
 
 void Scene::UpdateSystems(float delta)
 {
-	for (auto it = m_systems.begin(); it != m_systems.end(); it++) {
-		if ((*it)->OnUpdate(m_registry, delta)) {
-			delete (*it);
-			it = m_systems.erase(it);
+	for(auto& s: this->m_systems){
+		if(s.second->OnUpdate(m_registry, delta))
+		{
+			delete s.second;
+			m_systems.erase(s.first);
 		}
 	}
 }
@@ -112,15 +119,6 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 
 	lua_setglobal(L, "scene");
 
-	// lua_newtable(L);
-	
-	// for (int i = 0; i < (int)luaComponents.size(); i++)
-	// {
-	// 	lua_pushnumber(L, i);
-	// 	lua_setfield(L, -2, luaComponents[i].c_str());
-	// }
-
-	// lua_setglobal(L, "ComponentType");
 }
 
 Scene* Scene::lua_GetSceneUpValue(lua_State* L)

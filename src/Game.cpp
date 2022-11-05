@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "raylib.h"
+#include "raylib.h" 
 
 Game::Game( lua_State* L)
 {
@@ -29,7 +29,7 @@ void Game::run()
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
     this->scene->init();
-    this->setSystems();
+
     luaL_dofile(this->L, "../scripts/test.lua");
 
     // Main game loop
@@ -60,23 +60,40 @@ void Game::run()
 
 void Game::setSystems()
 {
-    this->scene->AddSystem(new BehaviourSystem(L));
+    this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
 }
 
 void Game::checkMenuSwitch()
 {
     if(IsKeyDown(KEY_M))
     {
-        this->gameState = GAME_STATE::MENU;
+        if(this->gameState != GAME_STATE::MENU)
+        {
+            this->gameState = GAME_STATE::MENU;
+            this->startMenu();
+        }
     }
     else if(IsKeyDown(KEY_G))
     {
-        this->gameState = GAME_STATE::GAME;
+        if(this->gameState != GAME_STATE::GAME)
+        {
+            this->gameState = GAME_STATE::GAME;
+            this->startGame();
+        }
     }
     else if(IsKeyDown(KEY_E))
     {
-        this->gameState = GAME_STATE::EDITOR;
+        if(this->gameState != GAME_STATE::EDITOR)
+        {
+            this->gameState = GAME_STATE::EDITOR;
+            this->startEditor();
+        }
     }
+}
+
+void Game::startMenu()
+{
+    this->scene->RemoveSystem("BehaviourSystem");
 }
 
 void Game::drawMenu()
@@ -91,10 +108,16 @@ void Game::drawMenu()
     EndDrawing();   
 }
 
+void Game::startGame()
+{
+    this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
+}
+
 void Game::drawGame()
 {
     //Update
     this->scene->UpdateSystems(GetFrameTime());
+   
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
@@ -103,10 +126,16 @@ void Game::drawGame()
     EndDrawing();   
 }
 
+void Game::startEditor()
+{
+    this->scene->RemoveSystem("BehaviourSystem");
+}
+
 void Game::drawEditor()
 {
     //Update
     this->scene->UpdateSystems(GetFrameTime());
+
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
