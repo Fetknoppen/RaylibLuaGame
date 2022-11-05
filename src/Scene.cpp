@@ -22,7 +22,7 @@ void Scene::init()
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
 
-	SetCameraMode(camera, CAMERA_FIRST_PERSON);
+	SetCameraMode(camera, CAMERA_FREE);
 }
 
 void Scene::draw()

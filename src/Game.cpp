@@ -32,6 +32,8 @@ void Game::run()
 
     luaL_dofile(this->L, "../scripts/test.lua");
 
+    this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));
+
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
@@ -105,6 +107,18 @@ void Game::drawMenu()
         ClearBackground(RAYWHITE);
         DrawText("Current: Menu\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
+
+        for(auto& b: this->buttons)
+        {
+            b.draw();
+            if(b.canClick()){
+                std::cout<<"HOVER\n";
+            }
+            if(b.clicked()){
+               this->gameState = GAME_STATE::GAME;
+            }
+        }
+
     EndDrawing();   
 }
 
