@@ -17,11 +17,12 @@ class Scene {
 	Camera camera;
 	
 private:
-	inline static const std::vector<std::string> luaComponents
-	{
-		"Transform",
-		"Mesh"
-	};
+	// inline static const std::vector<std::string> luaComponents
+	// {
+	// 	"Transform",
+	// 	"Mesh",
+	// 	"Behaviour"
+	// };
 public:
 	Scene();
 	~Scene();
@@ -57,11 +58,6 @@ public:
 
 	void UpdateSystems(float delta);
 
-private:
-	void loadModels();
-
-
-
 	//Lua
 public:
 	static void lua_openscene(lua_State* L, Scene* scene);
@@ -69,6 +65,7 @@ public:
 private:
 	static Scene* lua_GetSceneUpValue(lua_State* L);
 
+	static int lua_LoadModel(lua_State* L);
 	static int lua_CreateSystem(lua_State* L);
 	static int lua_CreateEntity(lua_State* L);
 	static int lua_SetComponent(lua_State* L);

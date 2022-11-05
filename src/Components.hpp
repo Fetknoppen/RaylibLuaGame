@@ -1,7 +1,8 @@
 #pragma once
 #include "raylib.h"
 #include "lua.hpp"
-#include<iostream>
+#include <iostream>
+#include <cstring>
 
 
 struct TransformComponent
@@ -22,6 +23,19 @@ struct MeshComponent
 {
 	std::string name;
 	MeshComponent(std::string name):name(name){}
+};
+
+struct Behaviour
+{
+	char scriptPath[64];
+	int luaRef;
+
+	Behaviour(const char* path, int luaRef)
+		:luaRef(luaRef)
+	{
+		memset(this->scriptPath, '\0', 64);
+		strcpy(this->scriptPath, path);
+	}
 };
 
 Vector3 lua_tovector(lua_State* L, int index);

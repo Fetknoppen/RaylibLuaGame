@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "lua.h"
 
 Scene::Scene()
 {
@@ -14,9 +15,6 @@ Scene::~Scene()
 
 void Scene::init()
 {
-	this->loadModels();
-
-
 	this->camera = { 0 };
     this->camera.position = (Vector3){ 4.0f, 2.0f, 4.0f };
     this->camera.target = (Vector3){ 0.0f, 1.8f, 0.0f };
@@ -25,7 +23,6 @@ void Scene::init()
     this->camera.projection = CAMERA_PERSPECTIVE;
 
 	SetCameraMode(camera, CAMERA_FIRST_PERSON);
-
 }
 
 void Scene::draw()
@@ -47,11 +44,6 @@ void Scene::draw()
 	});
 
 	EndMode3D();
-}
-
-void Scene::loadModels()
-{
-	this->rsHandler.loadModel("UBot-OBJ.obj");
 }
 
 void Scene::AddSystem(System *system)
@@ -100,6 +92,7 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 	lua_newtable(L);
 	luaL_Reg methods[] = {	// this->luaComponents.push_back("Transform");
 	// this->luaComponents.push_back("Mesh");
+		{"LoadModel", lua_LoadModel},
 		{"CreateEntity", lua_CreateEntity},
 		{"SetComponent", lua_SetComponent},
 		{"GetEntityCount", lua_GetEntityCount},
@@ -119,15 +112,15 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 
 	lua_setglobal(L, "scene");
 
-	lua_newtable(L);
+	// lua_newtable(L);
 	
-	for (int i = 0; i < (int)luaComponents.size(); i++)
-	{
-		lua_pushnumber(L, i);
-		lua_setfield(L, -2, luaComponents[i].c_str());
-	}
+	// for (int i = 0; i < (int)luaComponents.size(); i++)
+	// {
+	// 	lua_pushnumber(L, i);
+	// 	lua_setfield(L, -2, luaComponents[i].c_str());
+	// }
 
-	lua_setglobal(L, "ComponentType");
+	// lua_setglobal(L, "ComponentType");
 }
 
 Scene* Scene::lua_GetSceneUpValue(lua_State* L)
@@ -137,6 +130,14 @@ Scene* Scene::lua_GetSceneUpValue(lua_State* L)
 		scene = (Scene*)lua_touserdata(L, lua_upvalueindex(1));
 	}
 	return scene;
+}
+
+int Scene::lua_LoadModel(lua_State* L)
+{
+	Scene* scene = lua_GetSceneUpValue(L);
+	std::string modelName = lua_tostring(L, 1);
+	scene->rsHandler.loadModel(modelName);
+	return 0;
 }
 
 int Scene::lua_CreateEntity(lua_State* L)
@@ -163,7 +164,29 @@ int Scene::lua_SetComponent(lua_State* L)
 		MeshComponent meshComp(lua_tostring(L, 3));
 		scene->SetComponent<MeshComponent>(entity, meshComp);
 	}
+	else if(type == "Behaviour"){
+		if(scene->HasComponents<Behaviour>(entity)){
+			scene->RemoveComponent<Behaviour>(entity);
+		}
+		std::string file = lua_tostring(L, 3);
+		file = "../scripts/"+file;
+		luaL_dofile(L, file.c_str());
+		lua_pushvalue(L, -1);
+		int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+		lua_pushinteger(L, entity);
+		lua_setfield(L, -2, "ID");
 
+		lua_pushstring(L, file.c_str());
+		lua_setfield(L, -2, "path");
+
+		lua_getfield(L, -1, "start");
+		lua_pushvalue(L, -2);
+		lua_pcall(L, 1, 0, 0);
+
+		scene->SetComponent<Behaviour>(entity, file.c_str(), ref);
+		
+		return 1;
+	}
 
 	return 0;
 }
@@ -210,6 +233,9 @@ int Scene::lua_HasComponent(lua_State* L)
 	else if (type == "Mesh") {
 		hascomponent = scene->HasComponents<Mesh>(entity);
 	}
+	else if(type == "Behaviour"){
+		hascomponent = scene->HasComponents<Behaviour>(entity);
+	}
 
 	lua_pushboolean(L, hascomponent);
 	return 1;
@@ -232,12 +258,16 @@ int Scene::lua_GetComponent(lua_State* L)
 		lua_pushstring(L, mesh.name.c_str());
 		return 1;
 	}
+	else if (type == "Behaviour" && scene->HasComponents<Behaviour>(entity)) {
+		Behaviour& behavior = scene->GetComponent<Behaviour>(entity);
+		lua_rawgeti(L, LUA_REGISTRYINDEX, behavior.luaRef);
+		return 1;
+	}
 	else
 	{
 		lua_pushnil(L);
 	}
 
-	
 	return 1;
 }
 
@@ -255,6 +285,9 @@ int Scene::lua_RemoveComponent(lua_State* L)
 	}
 	else if (type == "Mesh") {
 		scene->RemoveComponent<MeshComponent>(entity);
+	}
+	else if(type == "Behaviour"){
+		scene->RemoveComponent<Behaviour>(entity);
 	}
 	return 0;
 }
