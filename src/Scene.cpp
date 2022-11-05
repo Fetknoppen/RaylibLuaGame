@@ -232,8 +232,12 @@ int Scene::lua_GetComponent(lua_State* L)
 		lua_pushstring(L, mesh.name.c_str());
 		return 1;
 	}
+	else
+	{
+		lua_pushnil(L);
+	}
 
-	lua_pushnil(L);
+	
 	return 1;
 }
 

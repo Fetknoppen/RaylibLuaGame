@@ -5,10 +5,8 @@ Game::Game( lua_State* L)
     this->scene = new Scene();
     this->scene->lua_openscene(L, this->scene);
 
-    luaL_loadfile(L, "../scripts/vector.lua");
-	lua_pcall(L, 0, 1, 0);
+    luaL_dofile(L, "../scripts/vector.lua");
 	lua_setglobal(L, "vector");
-
     luaL_dofile(L, "../scripts/test.lua");
 }
 

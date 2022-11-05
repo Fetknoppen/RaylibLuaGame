@@ -9,6 +9,13 @@ struct TransformComponent
 	Vector3 position;
 	Vector3 rotation;
 	Vector3 scale;
+
+	TransformComponent()
+	{
+		position = Vector3({0.0f, 0.0f, 0.0f});
+		rotation = Vector3({0.0f, 0.0f, 0.0f});
+		scale = Vector3({0.0f, 0.0f, 0.0f});
+	}
 };
 
 struct MeshComponent

@@ -33,6 +33,8 @@ void lua_pushvector(lua_State* L, const Vector3& vec)
 	lua_setfield(L, -2, "y");
 	lua_pushnumber(L, vec.z);
 	lua_setfield(L, -2, "z");
+	lua_getglobal(L, "vector");
+	lua_setmetatable(L, -2);
 }
 
 int PrintVector(lua_State* L)
@@ -72,7 +74,7 @@ void lua_pushtransform(lua_State* L, const TransformComponent& transform)
 	lua_newtable(L);
 
 	lua_pushvector(L, transform.position);
-	lua_setfield(L, -2, "translation");
+	lua_setfield(L, -2, "position");
 
 	lua_pushvector(L, transform.rotation);
 	lua_setfield(L, -2, "rotation");
