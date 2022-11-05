@@ -39,7 +39,7 @@ void Scene::draw()
 		}
 		else
 		{
-			std::cout<<"Some models are not loaded!\nLoad them manually in 'loadModels' function in Scene.cpp\n";
+			std::cout<<"Error: Model is not loaded yet.\n";
 		}
 	});
 

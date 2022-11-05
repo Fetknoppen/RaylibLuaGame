@@ -15,14 +15,6 @@ class Scene {
 	ResourceHandler rsHandler;
 
 	Camera camera;
-	
-private:
-	// inline static const std::vector<std::string> luaComponents
-	// {
-	// 	"Transform",
-	// 	"Mesh",
-	// 	"Behaviour"
-	// };
 public:
 	Scene();
 	~Scene();
