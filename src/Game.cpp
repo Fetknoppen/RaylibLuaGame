@@ -1,7 +1,10 @@
 #include "Game.hpp"
+#include "raylib.h"
 
 Game::Game( lua_State* L)
 {
+    this->gameState = GAME_STATE::MENU;
+
     this->L = L;
     this->scene = new Scene();
     this->scene->lua_openscene(L, this->scene);
@@ -32,19 +35,21 @@ void Game::run()
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update
-        this->scene->UpdateSystems(GetFrameTime());
+        
+        checkMenuSwitch();
 
-        // Draw
-        BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-            this->scene->draw();
-
-        EndDrawing();
+        switch (this->gameState)
+        {
+        case GAME_STATE::MENU:
+            drawMenu();
+            break;
+        case GAME_STATE::GAME:
+            drawGame();
+            break;
+        case GAME_STATE::EDITOR:
+            drawEditor();
+            break;
+        }
     }
 
     // De-Initialization
@@ -56,4 +61,56 @@ void Game::run()
 void Game::setSystems()
 {
     this->scene->AddSystem(new BehaviourSystem(L));
+}
+
+void Game::checkMenuSwitch()
+{
+    if(IsKeyDown(KEY_M))
+    {
+        this->gameState = GAME_STATE::MENU;
+    }
+    else if(IsKeyDown(KEY_G))
+    {
+        this->gameState = GAME_STATE::GAME;
+    }
+    else if(IsKeyDown(KEY_E))
+    {
+        this->gameState = GAME_STATE::EDITOR;
+    }
+}
+
+void Game::drawMenu()
+{
+    //Update
+    this->scene->UpdateSystems(GetFrameTime());
+    // Draw
+    BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Current: Menu\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+        this->scene->draw();
+    EndDrawing();   
+}
+
+void Game::drawGame()
+{
+    //Update
+    this->scene->UpdateSystems(GetFrameTime());
+    // Draw
+    BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Current: Game\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+        this->scene->draw();
+    EndDrawing();   
+}
+
+void Game::drawEditor()
+{
+    //Update
+    this->scene->UpdateSystems(GetFrameTime());
+    // Draw
+    BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+        this->scene->draw();
+    EndDrawing();   
 }
