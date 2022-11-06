@@ -16,8 +16,8 @@ Scene::~Scene()
 void Scene::init()
 {
 	this->camera = { 0 };
-    this->camera.position = (Vector3){ 4.0f, 2.0f, 4.0f };
-    this->camera.target = (Vector3){ 0.0f, 1.8f, 0.0f };
+    this->camera.position = (Vector3){ 0.0f, 0.0f, -10.0f };
+    this->camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;

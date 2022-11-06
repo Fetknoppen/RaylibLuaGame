@@ -1,1 +1,26 @@
-Add some resource handler to scene that handles models and stuff
+-Make camera follow player
+
+-MENU: Load level from file
+    -Show all avaliable levels
+
+-Set the size of the map
+-Create som file system for loading a level
+    -Positions
+    -Some ID for different enteties (boxes, enemies)
+-Create editor
+    -Select boxes or enemies with keyboard numbers (1,2,3,4,5....)
+    -Show outline of placement before placing
+    -Left click on screen to place
+    -Snaps to grid
+    -Right click on screen to remove
+    -Save level to a txt file with a name
+
+-Control player (LUA)
+    -Be able to get input
+    -Check for collisions
+    -Move left, right
+    -Jump
+
+-Create som enemy
+    -Moves left and right only
+    -Behaviour defined in lua

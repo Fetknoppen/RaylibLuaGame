@@ -116,6 +116,7 @@ void Game::drawMenu()
             }
             if(b.clicked()){
                this->gameState = GAME_STATE::GAME;
+               this->startGame();
             }
         }
 
@@ -155,5 +156,6 @@ void Game::drawEditor()
         ClearBackground(RAYWHITE);
         DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
+        DrawGrid(10, 1.0f);
     EndDrawing();   
 }
