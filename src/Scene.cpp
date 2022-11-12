@@ -15,12 +15,7 @@ Scene::~Scene()
 
 void Scene::init()
 {
-	this->camera = { 0 };
-    this->camera.position = (Vector3){ 0.0f, 0.0f, -10.0f };
-    this->camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-    this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    this->camera.fovy = 60.0f;
-    this->camera.projection = CAMERA_PERSPECTIVE;
+	setCameraPosition((Vector3){ 0.0f, 0.0f, 10.0f });
 }
 
 void Scene::draw()
@@ -302,11 +297,12 @@ int Scene::lua_setCameraPos(lua_State* L) {
 void Scene::setCameraPosition(Vector3 position) {
 	this->camera = { 0 };
     this->camera.position = position;
-    this->camera.target = (Vector3){position.x, +position.y, position.z+1.0f};
+    this->camera.target = (Vector3){position.x, +position.y, position.z - 1.0f};
     this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
 }
+
 int Scene::lua_isKeyPressed(lua_State* L) {
 	Scene* scene = lua_GetSceneUpValue(L);
     std::string key = lua_tostring(L, 1);

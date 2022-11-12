@@ -9,13 +9,16 @@ Game::Game( lua_State* L)
     this->scene = new Scene();
     this->scene->lua_openscene(L, this->scene);
 
+    this->map = new mapLoader(this->scene);
+
     luaL_dofile(L, "../scripts/vector.lua");
 	lua_setglobal(L, "vector");
 }
 
 Game::~Game()
 {
-    
+    delete this->scene;
+    delete this->map;
 }
 
 void Game::run()
@@ -66,14 +69,20 @@ void Game::setSystems()
 
 void Game::checkMenuSwitch()
 {
+    //To menu
     if(IsKeyDown(KEY_M))
     {
+        if(this->gameState == GAME_STATE::GAME)
+        {
+            this->map->unLoad();
+        }
         if(this->gameState != GAME_STATE::MENU)
         {
             this->gameState = GAME_STATE::MENU;
             this->startMenu();
         }
     }
+    //To game
     else if(IsKeyDown(KEY_G))
     {
         if(this->gameState != GAME_STATE::GAME)
@@ -82,8 +91,13 @@ void Game::checkMenuSwitch()
             this->startGame();
         }
     }
+    //To editor
     else if(IsKeyDown(KEY_E))
     {
+        if(this->gameState == GAME_STATE::GAME)
+        {
+            this->map->unLoad();
+        }
         if(this->gameState != GAME_STATE::EDITOR)
         {
             this->gameState = GAME_STATE::EDITOR;
@@ -125,7 +139,7 @@ void Game::drawMenu()
 void Game::startGame()
 {
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
-    //Load map
+    this->map->load();
 }
 
 void Game::drawGame()

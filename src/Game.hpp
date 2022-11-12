@@ -4,6 +4,7 @@
 #include "Scene.hpp"
 #include "Systems.hpp"
 #include "Button.hpp"
+#include "mapLoader.hpp"
 
 enum GAME_STATE{MENU, GAME, EDITOR};
 
@@ -18,6 +19,7 @@ private:
     lua_State* L;
     GAME_STATE gameState;
     std::vector<Button> buttons;
+    mapLoader* map;
 
 private:
     void checkMenuSwitch();
