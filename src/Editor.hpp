@@ -1,4 +1,6 @@
 
+#include <iostream>
+#include <fstream> 
 
 #include "Scene.hpp"
 #include "raylib.h"
@@ -65,6 +67,8 @@ public:
     ~Editor();
     void update();
     void draw();
+    bool save(std::string name);
+    void reset();
 private:
     Scene* scene;
     int gridSizeX;

@@ -24,6 +24,10 @@ private:
     Editor* editor;//This is causing stack mashing? and seg fault?
 
 private:
+    bool mapSave;
+    std::string mapSaveName;
+
+private:
     void checkMenuSwitch();
     void setSystems();
     void startMenu();

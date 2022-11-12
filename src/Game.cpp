@@ -10,6 +10,8 @@ Game::Game( lua_State* L)
     this->scene->lua_openscene(L, this->scene);
     this->map = new mapLoader(this->scene);
     this->editor = new Editor(this->scene);
+    this->mapSave = false;
+
     luaL_dofile(L, "../scripts/vector.lua");
 	lua_setglobal(L, "vector");
 }
@@ -168,14 +170,63 @@ void Game::startEditor()
 void Game::drawEditor()
 {
     //Update
+    
+    if(IsKeyPressed(KEY_ENTER) && !this->mapSave)
+    {
+        this->mapSave = true;
+        this->mapSaveName = "";
+    }
+
     this->scene->UpdateSystems(GetFrameTime());
-    this->editor->update();
+    if( this->mapSave)
+    {
+        char c = GetCharPressed();
+        if(c != 0)
+        {
+            std::cout<<"input char: "<<c<<std::endl;
+            this->mapSaveName += c;
+        }
+        if(IsKeyPressed(KEY_BACKSPACE))
+        {
+            std::cout<<"Pop\n";
+            this->mapSaveName.pop_back();
+        }
+        else if(IsKeyPressed(KEY_ENTER))
+        {
+            std::cout<<"Save this shit!"<<std::endl;
+            if(this->mapSaveName.size() > 0 && this->editor->save(this->mapSaveName))
+            {
+                this->editor->reset();
+                this->mapSaveName = "";
+                this->mapSave = false;
+            }
+            else
+            {
+                std::cout<<"Name already in use!"<<std::endl;
+            }
+        }
+    }
+    else
+    {
+        this->editor->update();
+    }
 
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+
         this->scene->draw();
-        this->editor->draw();
+        if( this->mapSave)
+        {
+            std::string disp = "Name: "+this->mapSaveName;
+            DrawText(disp.c_str(), 10, 10, 20, LIGHTGRAY);
+            DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+        }
+        else
+        {
+            this->editor->draw();
+            DrawText("1: Ground\n2: Enemy\nEnter: Save\n", 10, 10, 20, LIGHTGRAY);
+        }
+        
     EndDrawing();   
 }

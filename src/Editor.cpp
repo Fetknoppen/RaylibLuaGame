@@ -68,3 +68,27 @@ void Editor::setUpGrid() {
         }
     }
 }
+
+bool Editor::save(std::string name) {
+
+    std::string fileName = "../Levels/Custom/"+name+".txt";
+    std::ofstream file(fileName);
+    if(!file)
+    {
+        return false;
+    }
+    for(auto& c: this->grid)
+    {
+        if(c.used)
+        {
+            file<<c.type<<" "<<c.position.x<<","<<c.position.y<<","<<"0\n";
+        }
+    }
+
+    return true;
+}
+
+void Editor::reset() {
+    this->grid.clear();  
+    this->setUpGrid();
+}

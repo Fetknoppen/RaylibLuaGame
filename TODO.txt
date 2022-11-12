@@ -3,7 +3,6 @@
 
 -Create editor
     -Make either camera follow mouse or make grid fit within screen
-    -Save level to a txt file with a name
 
 -Create som enemy
     -Moves left and right only
