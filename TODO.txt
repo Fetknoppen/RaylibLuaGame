@@ -1,12 +1,8 @@
 -MENU: Load level from file
     -Show all avaliable levels
 
--Set the size of the map
 -Create editor
-    -Select boxes or enemies with keyboard numbers (1,2)
-    -Show outline of placement before placing
-    -Left click on screen to place
-    -Right click on screen to remove
+    -Make either camera follow mouse or make grid fit within screen
     -Save level to a txt file with a name
 
 -Create som enemy
