@@ -2,12 +2,14 @@ local test = {}
 
 --Set variables
 local moveRight
+local jump
 local entityID
 
 function test:start()
     --Called once
     entityID = self.ID
-    moveRight = true
+    jump = false;
+    grounded = true
    
     --print(entityID)
 end
@@ -17,18 +19,15 @@ function test:update(delta)
     --Called once per frame
     local trans = scene.GetComponent(entityID, "Transform")
 
-    if moveRight then
-        trans.position.x = trans.position.x + 1 * delta
-    else
-        trans.position.x = trans.position.x - 1 * delta
+    if (scene.IsKeyPressed("SPACE") and  grounded)then
+        print("JUMP")
     end
-
-    if trans.position.x > 5 then
+    if scene.IsKeyDown("A") then
         print("Moving left!")
-        moveRight = false
-    elseif trans.position.x < -5 then
+        trans.position.x = trans.position.x - 1 * delta
+    elseif scene.IsKeyDown("D") then
         print("Moving right!")
-        moveRight = true
+        trans.position.x = trans.position.x + 1 * delta
     end
 
     scene.SetComponent(entityID, "Transform", trans)

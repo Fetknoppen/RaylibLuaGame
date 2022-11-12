@@ -1,5 +1,3 @@
--Make camera follow player
-
 -MENU: Load level from file
     -Show all avaliable levels
 
@@ -14,12 +12,6 @@
     -Snaps to grid
     -Right click on screen to remove
     -Save level to a txt file with a name
-
--Control player (LUA)
-    -Be able to get input
-    -Check for collisions
-    -Move left, right
-    -Jump
 
 -Create som enemy
     -Moves left and right only

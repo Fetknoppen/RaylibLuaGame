@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "raylib.h"
 
 Scene::Scene()
 {
@@ -98,6 +99,9 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 	// this->luaComponents.push_back("Mesh");
 		{"LoadModel", lua_LoadModel},
 		{"SetCamPos", lua_setCameraPos},
+		{"IsKeyPressed", lua_isKeyPressed},
+		{"IsKeyDown", lua_isKeyDown},
+		{"IsKeyUp", lua_isKeyUp},
 		{"CreateEntity", lua_CreateEntity},
 		{"SetComponent", lua_SetComponent},
 		{"GetEntityCount", lua_GetEntityCount},
@@ -302,4 +306,24 @@ void Scene::setCameraPosition(Vector3 position) {
     this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
+}
+int Scene::lua_isKeyPressed(lua_State* L) {
+	Scene* scene = lua_GetSceneUpValue(L);
+    std::string key = lua_tostring(L, 1);
+	lua_pushboolean(L, IsKeyPressed(scene->inputKeys[key]));
+	return 1;
+}
+
+int Scene::lua_isKeyDown(lua_State* L) {
+    Scene* scene = lua_GetSceneUpValue(L);
+    std::string key = lua_tostring(L, 1);
+	lua_pushboolean(L, IsKeyDown(scene->inputKeys[key]));
+	return 1;
+}
+
+int Scene::lua_isKeyUp(lua_State* L) {
+    Scene* scene = lua_GetSceneUpValue(L);
+    std::string key = lua_tostring(L, 1);
+	lua_pushboolean(L, IsKeyUp(scene->inputKeys[key]));
+	return 1;
 }

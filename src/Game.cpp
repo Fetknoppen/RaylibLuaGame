@@ -20,7 +20,6 @@ Game::~Game()
 
 void Game::run()
 {
-   
     const int screenWidth = 800;
     const int screenHeight = 450;
 
@@ -126,6 +125,7 @@ void Game::drawMenu()
 void Game::startGame()
 {
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
+    //Load map
 }
 
 void Game::drawGame()
