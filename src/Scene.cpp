@@ -7,10 +7,12 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	std::cout<<"Scene deconstructor start\n";
 	for(auto& s: m_systems)
 	{
 		delete s.second;
 	}
+	std::cout<<"Scene deconstructor end\n";
 }
 
 void Scene::init()

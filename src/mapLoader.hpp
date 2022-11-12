@@ -1,6 +1,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "Scene.hpp"
 #include "raylib.h"

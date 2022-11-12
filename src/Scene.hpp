@@ -165,5 +165,4 @@ template<typename T, typename ...Args>
 inline void Scene::CreateSystem(Args ...args)
 {
 	m_systems.insert(new T(args...));
-	//m_systems.emplace_back(new T(args...));
 }

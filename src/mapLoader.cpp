@@ -8,7 +8,8 @@ mapLoader::mapLoader(Scene* scene)
 }
 
 mapLoader::~mapLoader() {
-    
+    std::cout<<"Map deconstructor start\n";
+    std::cout<<"Map deconstructor end\n";
 }
 
 void mapLoader::load() {

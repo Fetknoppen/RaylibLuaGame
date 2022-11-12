@@ -5,6 +5,7 @@
 #include "Systems.hpp"
 #include "Button.hpp"
 #include "mapLoader.hpp"
+#include "Editor.hpp"
 
 enum GAME_STATE{MENU, GAME, EDITOR};
 
@@ -20,6 +21,7 @@ private:
     GAME_STATE gameState;
     std::vector<Button> buttons;
     mapLoader* map;
+    Editor* editor;//This is causing stack mashing? and seg fault?
 
 private:
     void checkMenuSwitch();

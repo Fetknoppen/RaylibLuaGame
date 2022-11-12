@@ -8,17 +8,19 @@ Game::Game( lua_State* L)
     this->L = L;
     this->scene = new Scene();
     this->scene->lua_openscene(L, this->scene);
-
     this->map = new mapLoader(this->scene);
-
+    this->editor = new Editor(this->scene);
     luaL_dofile(L, "../scripts/vector.lua");
 	lua_setglobal(L, "vector");
 }
 
 Game::~Game()
 {
-    delete this->scene;
-    delete this->map;
+    //TODO: Check here why I get segmentation fault
+    //delete this->scene;
+    //delete this->map;
+    //delete this->editor;
+    std::cout<<"Game deconstructor\n";
 }
 
 void Game::run()
@@ -167,12 +169,13 @@ void Game::drawEditor()
 {
     //Update
     this->scene->UpdateSystems(GetFrameTime());
+    this->editor->update();
 
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
-        DrawGrid(10, 1.0f);
+        this->editor->draw();
     EndDrawing();   
 }
