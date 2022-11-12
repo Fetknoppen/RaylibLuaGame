@@ -2,14 +2,10 @@
     -Show all avaliable levels
 
 -Set the size of the map
--Create som file system for loading a level
-    -Positions
-    -Some ID for different enteties (boxes, enemies)
 -Create editor
-    -Select boxes or enemies with keyboard numbers (1,2,3,4,5....)
+    -Select boxes or enemies with keyboard numbers (1,2)
     -Show outline of placement before placing
     -Left click on screen to place
-    -Snaps to grid
     -Right click on screen to remove
     -Save level to a txt file with a name
 
