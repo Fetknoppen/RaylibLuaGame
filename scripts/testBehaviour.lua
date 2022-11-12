@@ -37,4 +37,11 @@ function test:update(delta)
 
 end
 
+function test:reset()
+    print("RESET")
+    local trans = scene.GetComponent(entityID, "Transform")
+    trans.position = vector(0,0,0)
+    scene.SetComponent(entityID, "Transform", trans)
+end
+
 return test

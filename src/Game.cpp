@@ -108,6 +108,7 @@ void Game::checkMenuSwitch()
 
 void Game::startMenu()
 {
+    this->scene->resetBehaviours(L);
     this->scene->RemoveSystem("BehaviourSystem");
 }
 
@@ -138,6 +139,7 @@ void Game::drawMenu()
 
 void Game::startGame()
 {
+    //luaL_dofile(this->L, "../scripts/test.lua");
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
     this->map->load();
 }
@@ -158,6 +160,7 @@ void Game::drawGame()
 void Game::startEditor()
 {
     this->scene->RemoveSystem("BehaviourSystem");
+    this->scene->resetBehaviours(L);
 }
 
 void Game::drawEditor()

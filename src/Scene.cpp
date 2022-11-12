@@ -323,3 +323,18 @@ int Scene::lua_isKeyUp(lua_State* L) {
 	lua_pushboolean(L, IsKeyUp(scene->inputKeys[key]));
 	return 1;
 }
+
+void Scene::resetBehaviours(lua_State* L) {
+
+	auto view = this->m_registry.view<Behaviour>();
+	view.each([&](Behaviour& script){
+		
+		lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);
+		lua_getfield(L, -1, "reset");
+		lua_pushvalue(L, -2);
+		if(lua_pcall(L, 1, 0, 0) != LUA_OK){
+			std::cout<<"Failed to call\n";
+		}
+		lua_pop(L, 1);
+	});
+}

@@ -72,6 +72,7 @@ public:
 public:
 	void init();
 	void draw();
+	void resetBehaviours(lua_State* L);
 	void AddSystem(std::string name, System* system);
 	void RemoveSystem(std::string name);
 	void setCameraPosition(Vector3 position);
