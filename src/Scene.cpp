@@ -1,5 +1,4 @@
 #include "Scene.hpp"
-#include "lua.h"
 
 Scene::Scene()
 {
@@ -21,8 +20,6 @@ void Scene::init()
     this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
-
-	SetCameraMode(camera, CAMERA_FREE);
 }
 
 void Scene::draw()
@@ -100,6 +97,7 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 	luaL_Reg methods[] = {	// this->luaComponents.push_back("Transform");
 	// this->luaComponents.push_back("Mesh");
 		{"LoadModel", lua_LoadModel},
+		{"SetCamPos", lua_setCameraPos},
 		{"CreateEntity", lua_CreateEntity},
 		{"SetComponent", lua_SetComponent},
 		{"GetEntityCount", lua_GetEntityCount},
@@ -288,4 +286,20 @@ int Scene::lua_RemoveComponent(lua_State* L)
 		scene->RemoveComponent<Behaviour>(entity);
 	}
 	return 0;
+}
+
+int Scene::lua_setCameraPos(lua_State* L) {
+    Scene* scene = lua_GetSceneUpValue(L);
+	Vector3 position = lua_tovector(L, 1);
+	scene->setCameraPosition(position);
+	return 0;
+}
+
+void Scene::setCameraPosition(Vector3 position) {
+	this->camera = { 0 };
+    this->camera.position = position;
+    this->camera.target = (Vector3){position.x, +position.y, position.z+1.0f};
+    this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    this->camera.fovy = 60.0f;
+    this->camera.projection = CAMERA_PERSPECTIVE;
 }

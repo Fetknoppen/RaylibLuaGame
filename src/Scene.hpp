@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "entt.hpp"
-#include "lua.hpp"
+#include "raylib.h"
 
 #include "Systems.hpp"
 #include "ResourceHandler.hpp"
@@ -11,7 +11,6 @@
 class Scene {
 
 	entt::registry m_registry;
-	//std::vector<System*> m_systems;
 	std::unordered_map<std::string, System*> m_systems;
 	ResourceHandler rsHandler;
 
@@ -23,8 +22,10 @@ public:
 public:
 	void init();
 	void draw();
+	void setInputKeys();
 	void AddSystem(std::string name, System* system);
 	void RemoveSystem(std::string name);
+	void setCameraPosition(Vector3 position);
 
 	int GetEntityCount();
 
@@ -60,6 +61,7 @@ private:
 	static Scene* lua_GetSceneUpValue(lua_State* L);
 
 	static int lua_LoadModel(lua_State* L);
+	static int lua_setCameraPos(lua_State* L);
 	static int lua_CreateSystem(lua_State* L);
 	static int lua_CreateEntity(lua_State* L);
 	static int lua_SetComponent(lua_State* L);
