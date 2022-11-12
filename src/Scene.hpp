@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "entt.hpp"
+#include "lua.hpp"
 #include "raylib.h"
 
 #include "Systems.hpp"
