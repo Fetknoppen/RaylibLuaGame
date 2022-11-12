@@ -32,7 +32,7 @@ function test:update(delta)
 
     scene.SetComponent(entityID, "Transform", trans)
 
-    scene.SetCamPos(trans.position + vector(0,0,-10))
+    scene.SetCamPos(trans.position + vector(0,0,10))
 
 
 end
