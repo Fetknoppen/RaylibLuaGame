@@ -7,7 +7,7 @@
 #include "mapLoader.hpp"
 #include "Editor.hpp"
 
-enum GAME_STATE{MENU, GAME, EDITOR};
+enum GAME_STATE{MENU, GAME, EDITOR, QUIT};
 
 class Game
 {

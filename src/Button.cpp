@@ -51,3 +51,6 @@ bool Button::clicked()
     }
     return ret;
 }
+std::string Button::getName() {
+    return this->label;    
+}

@@ -1,9 +1,6 @@
 -MENU: Load level from file
     -Show all avaliable levels
 
--Create editor
-    -Make either camera follow mouse or make grid fit within screen
-
 -Create som enemy
     -Moves left and right only
     -Behaviour defined in lua

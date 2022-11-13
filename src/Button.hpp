@@ -12,6 +12,7 @@ public:
     void draw();
     bool canClick();
     bool clicked();
+    std::string getName();
 private:
     Texture2D background;
     std::string label;

@@ -39,6 +39,8 @@ void Game::run()
     luaL_dofile(this->L, "../scripts/test.lua");
 
     this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));
+    this->buttons.push_back(Button("Editor", "button1.png", {20.0f, 60.0f}, 100, 20, WHITE));
+    this->buttons.push_back(Button("Quit", "button1.png", {20.0f, 100.0f}, 100, 20, WHITE));
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -57,6 +59,9 @@ void Game::run()
         case GAME_STATE::EDITOR:
             drawEditor();
             break;
+        case GAME_STATE::QUIT:
+            CloseWindow();
+            break;
         }
     }
 
@@ -73,41 +78,41 @@ void Game::setSystems()
 
 void Game::checkMenuSwitch()
 {
-    //To menu
-    if(IsKeyDown(KEY_M))
-    {
-        if(this->gameState == GAME_STATE::GAME)
-        {
-            this->map->unLoad();
-        }
-        if(this->gameState != GAME_STATE::MENU)
-        {
-            this->gameState = GAME_STATE::MENU;
-            this->startMenu();
-        }
-    }
-    //To game
-    else if(IsKeyDown(KEY_G))
-    {
-        if(this->gameState != GAME_STATE::GAME)
-        {
-            this->gameState = GAME_STATE::GAME;
-            this->startGame();
-        }
-    }
-    //To editor
-    else if(IsKeyDown(KEY_E))
-    {
-        if(this->gameState == GAME_STATE::GAME)
-        {
-            this->map->unLoad();
-        }
-        if(this->gameState != GAME_STATE::EDITOR)
-        {
-            this->gameState = GAME_STATE::EDITOR;
-            this->startEditor();
-        }
-    }
+    // //To menu
+    // if(IsKeyDown(KEY_M))
+    // {
+    //     if(this->gameState == GAME_STATE::GAME)
+    //     {
+    //         this->map->unLoad();
+    //     }
+    //     if(this->gameState != GAME_STATE::MENU)
+    //     {
+    //         this->gameState = GAME_STATE::MENU;
+    //         this->startMenu();
+    //     }
+    // }
+    // //To game
+    // else if(IsKeyDown(KEY_G))
+    // {
+    //     if(this->gameState != GAME_STATE::GAME)
+    //     {
+    //         this->gameState = GAME_STATE::GAME;
+    //         this->startGame();
+    //     }
+    // }
+    // //To editor
+    // else if(IsKeyDown(KEY_E))
+    // {
+    //     if(this->gameState == GAME_STATE::GAME)
+    //     {
+    //         this->map->unLoad();
+    //     }
+    //     if(this->gameState != GAME_STATE::EDITOR)
+    //     {
+    //         this->gameState = GAME_STATE::EDITOR;
+    //         this->startEditor();
+    //     }
+    // }
 }
 
 void Game::startMenu()
@@ -124,18 +129,27 @@ void Game::drawMenu()
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Current: Menu\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
 
         for(auto& b: this->buttons)
         {
             b.draw();
-            if(b.canClick()){
-                std::cout<<"HOVER\n";
-            }
             if(b.clicked()){
-               this->gameState = GAME_STATE::GAME;
-               this->startGame();
+               std::string buttonName = b.getName();
+               if(buttonName == "Start")
+               {
+                    this->gameState = GAME_STATE::GAME;
+                    this->startGame();
+               }
+               else if(buttonName == "Editor")
+               {
+                    this->gameState = GAME_STATE::EDITOR;
+                    this->startEditor();
+               }
+               else if(buttonName == "Quit")
+               {
+                    this->gameState = GAME_STATE::QUIT;
+               }
             }
         }
 
@@ -154,11 +168,17 @@ void Game::drawGame()
 {
     //Update
     this->scene->UpdateSystems(GetFrameTime());
+    if(IsKeyPressed(KEY_DELETE))
+    {
+        this->map->unLoad();
+        this->startMenu();
+        this->gameState = GAME_STATE::MENU;
+    }
    
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Current: Game\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+        DrawText("DELETE: menu", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
     EndDrawing();   
 }
@@ -176,11 +196,7 @@ void Game::drawEditor()
 {
     //Update
     
-    if(IsKeyPressed(KEY_ENTER) && !this->mapSave)
-    {
-        this->mapSave = true;
-        this->mapSaveName = "";
-    }
+    
 
     this->scene->UpdateSystems(GetFrameTime());
     if( this->mapSave)
@@ -210,10 +226,30 @@ void Game::drawEditor()
                 std::cout<<"Name already in use!"<<std::endl;
             }
         }
+        if(IsKeyPressed(KEY_DELETE))
+        {
+            this->mapSaveName = "";
+            this->mapSave = false;
+            this->startMenu();
+            this->gameState = GAME_STATE::MENU;
+        }
     }
     else
     {
         this->editor->update();
+
+        if(IsKeyPressed(KEY_ENTER))
+        {
+            this->mapSave = true;
+            this->mapSaveName = "";
+        }
+        if(IsKeyPressed(KEY_DELETE))
+        {
+            this->mapSaveName = "";
+            this->mapSave = false;
+            this->startMenu();
+            this->gameState = GAME_STATE::MENU;
+        }
     }
 
     // Draw
@@ -225,14 +261,14 @@ void Game::drawEditor()
         {
             std::string disp = "Name: "+this->mapSaveName;
             DrawText(disp.c_str(), 10, 10, 20, LIGHTGRAY);
-            DrawText("Current: Editor\nMenu: M\nGame: G\nEditor: E", 190, 200, 20, LIGHTGRAY);
+            DrawText("Enter: Save\nDELETE: Return to menu", 190, 200, 20, LIGHTGRAY);
         }
         else
         {
             //BeginMode3D(*this->scene->getCam());
             this->editor->draw();
             //EndMode3D();
-            DrawText("1: Ground\n2: Enemy\nEnter: Save\n", 10, 10, 20, LIGHTGRAY);
+            DrawText("1: Ground\n2: Enemy\nEnter: Save\nDELETE: Return to menu", 10, 10, 20, LIGHTGRAY);
         }
         
     EndDrawing();   
