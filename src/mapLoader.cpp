@@ -4,7 +4,7 @@
 mapLoader::mapLoader(Scene* scene)
     :scene(scene)
 {
-    
+    this->currentMap = "default";
 }
 
 mapLoader::~mapLoader() {
@@ -14,7 +14,8 @@ mapLoader::~mapLoader() {
 
 void mapLoader::load() {
     std::ifstream cur;
-    cur.open("../Levels/Current.txt");
+    std::string path = "../Levels/"+this->currentMap+".txt";
+    cur.open(path);
     if(cur.is_open())
     {
         std::string delimiter_space = " ";
@@ -59,5 +60,20 @@ void mapLoader::unLoad() {
 }
 
 void mapLoader::setCurrentMap(std::string name) {
-    
+    this->currentMap = name;
+}
+
+std::vector<std::string>* mapLoader::getFiles() {
+    return &this->files;
+}
+
+void mapLoader::updateFiles() {
+    std::string path = "../Levels/";
+    std::string temp;
+    for (const auto& entry : std::filesystem::directory_iterator(path))
+    {
+        temp = entry.path();
+        temp.erase(0, path.length());
+        this->files.push_back(temp);
+    }    
 }

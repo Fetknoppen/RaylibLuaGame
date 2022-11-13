@@ -36,6 +36,8 @@ void Game::run()
 
     this->scene->init();
 
+    startLevelSelector();
+
     luaL_dofile(this->L, "../scripts/test.lua");
 
     this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));
@@ -52,6 +54,9 @@ void Game::run()
         {
         case GAME_STATE::MENU:
             drawMenu();
+            break;
+        case GAME_STATE::LEVEL_SELECTOR:
+            drawLevelSelector();
             break;
         case GAME_STATE::GAME:
             drawGame();
@@ -195,8 +200,6 @@ void Game::startEditor()
 void Game::drawEditor()
 {
     //Update
-    
-    
 
     this->scene->UpdateSystems(GetFrameTime());
     if( this->mapSave)
@@ -272,4 +275,16 @@ void Game::drawEditor()
         }
         
     EndDrawing();   
+}
+
+void Game::startLevelSelector() {
+    this->map->updateFiles();
+    for(auto f: *this->map->getFiles())
+    {
+        std::cout<<f<<std::endl;
+    }
+}
+
+void Game::drawLevelSelector() {
+    
 }

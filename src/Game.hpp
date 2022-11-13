@@ -1,4 +1,7 @@
 
+#include <filesystem>
+#include <string>
+
 #include "raylib.h"
 
 #include "Scene.hpp"
@@ -7,7 +10,7 @@
 #include "mapLoader.hpp"
 #include "Editor.hpp"
 
-enum GAME_STATE{MENU, GAME, EDITOR, QUIT};
+enum GAME_STATE{MENU, LEVEL_SELECTOR, GAME, EDITOR, QUIT};
 
 class Game
 {
@@ -32,6 +35,8 @@ private:
     void setSystems();
     void startMenu();
     void drawMenu();
+    void startLevelSelector();
+    void drawLevelSelector();
     void startGame();
     void drawGame();
     void startEditor();

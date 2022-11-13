@@ -70,7 +70,7 @@ void Editor::setUpGrid() {
 
 bool Editor::save(std::string name) {
 
-    std::string fileName = "../Levels/Custom/"+name+".txt";
+    std::string fileName = "../Levels/"+name+".txt";
     std::ofstream file(fileName);
     if(!file)
     {
