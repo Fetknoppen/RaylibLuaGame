@@ -5,10 +5,12 @@
 #include "Scene.hpp"
 #include "raylib.h"
 
+const Vector2 CELL_SIZE = (Vector2){30.0f, 30.0f};
+
 struct cell
 {
     Vector2 position;
-    const Vector2 size = (Vector2){30.0f, 30.0f};
+    const Vector2 size = CELL_SIZE;
     bool used = false;
     int type = 0;
 
@@ -16,7 +18,7 @@ struct cell
 
     void draw()
     {
-        Vector3 drawPos = (Vector3){this->position.x, this->position.y, 0.0f};
+        Vector3 drawPos = (Vector3){this->position.x+this->size.x/2, this->position.y+this->size.y/2, 0.0f};
         switch (this->type)
         {
         case 0:
@@ -63,8 +65,9 @@ struct cell
 class Editor
 {
 public:
-    Editor(Scene* scene, int sizeX = 100, int sizeY = 10);
+    Editor(Scene* scene);
     ~Editor();
+    void init();
     void update();
     void draw();
     bool save(std::string name);

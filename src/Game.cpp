@@ -29,7 +29,7 @@ void Game::run()
 {
     const int screenWidth = 800;
     const int screenHeight = 450;
-
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -114,6 +114,7 @@ void Game::startMenu()
 {
     this->scene->resetBehaviours(L);
     this->scene->RemoveSystem("BehaviourSystem");
+    //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
 
 void Game::drawMenu()
@@ -146,6 +147,7 @@ void Game::startGame()
     //luaL_dofile(this->L, "../scripts/test.lua");
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
     this->map->load();
+    //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
 
 void Game::drawGame()
@@ -163,8 +165,11 @@ void Game::drawGame()
 
 void Game::startEditor()
 {
+    this->editor->init();
     this->scene->RemoveSystem("BehaviourSystem");
     this->scene->resetBehaviours(L);
+    //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 300.0f});
+
 }
 
 void Game::drawEditor()
@@ -224,7 +229,9 @@ void Game::drawEditor()
         }
         else
         {
+            //BeginMode3D(*this->scene->getCam());
             this->editor->draw();
+            //EndMode3D();
             DrawText("1: Ground\n2: Enemy\nEnter: Save\n", 10, 10, 20, LIGHTGRAY);
         }
         

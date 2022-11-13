@@ -2,11 +2,9 @@
 #include "raylib.h"
 
 
-Editor::Editor(Scene* scene, int sizeX, int sizeY)
-    :gridSizeX(sizeX), gridSizeY(sizeY)
+Editor::Editor(Scene* scene)
 {
-    setUpGrid();
-    this->currentType = 1;
+  
 }
 
 Editor::~Editor() 
@@ -57,6 +55,7 @@ void Editor::draw() {
 }
 
 void Editor::setUpGrid() {
+    std::cout<<"X: "<<this->gridSizeX<<" Y: "<<this->gridSizeY<<std::endl;
     for(int x = 0; x < this->gridSizeX; x++)
     {
         for(int y = 0; y < this->gridSizeY; y++)
@@ -89,6 +88,13 @@ bool Editor::save(std::string name) {
 }
 
 void Editor::reset() {
-    this->grid.clear();  
-    this->setUpGrid();
+    init();
+}
+
+void Editor::init() {
+    this->grid.clear();
+    this->currentType = 1;
+    this->gridSizeX = (int)(GetScreenWidth()/CELL_SIZE.x);
+    this->gridSizeY = (int)(GetScreenHeight()/CELL_SIZE.y);
+    setUpGrid();    
 }

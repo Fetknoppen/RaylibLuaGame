@@ -70,6 +70,7 @@ public:
 	~Scene();
 
 public:
+	Camera* getCam();
 	void init();
 	void draw();
 	void resetBehaviours(lua_State* L);

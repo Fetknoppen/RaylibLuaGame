@@ -340,3 +340,7 @@ void Scene::resetBehaviours(lua_State* L) {
 		lua_pop(L, 1);
 	});
 }
+
+Camera* Scene::getCam() {
+	return &this->camera;
+}
