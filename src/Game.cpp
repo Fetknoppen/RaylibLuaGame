@@ -143,8 +143,10 @@ void Game::drawMenu()
                std::string buttonName = b.getName();
                if(buttonName == "Start")
                {
-                    this->gameState = GAME_STATE::GAME;
-                    this->startGame();
+                    this->gameState = GAME_STATE::LEVEL_SELECTOR;
+                    this->startLevelSelector();
+                    //this->gameState = GAME_STATE::GAME;
+                    //this->startGame();
                }
                else if(buttonName == "Editor")
                {
@@ -278,13 +280,46 @@ void Game::drawEditor()
 }
 
 void Game::startLevelSelector() {
+    for(auto* b: this->mapButtons)
+    {
+        delete b;
+    }
+    this->mapButtons.clear();
+
     this->map->updateFiles();
+    int i = 0;
+    int x = 0;
+    int y = 0;
+    float buffer = 20.0f;
     for(auto f: *this->map->getFiles())
     {
-        std::cout<<f<<std::endl;
+        float buttonWidth = 30.0f;
+        float buttonHeight = 20.0f;
+        Vector2 buttonPos =  (Vector2){0.0f, 0.0f};
+        buttonPos.x = x * (buttonWidth+buffer);
+        buttonPos.y = y * (buttonHeight+buffer);
+        x++;
+        if(buttonPos.x > GetScreenWidth())
+        {
+            x = 0;
+            y++;
+            buttonPos.x = x * (buttonWidth+buffer);
+            buttonPos.y = y * (buttonHeight+buffer);
+        }
+        this->mapButtons.push_back(new Button(f, "button1.png", buttonPos, buttonWidth, buttonHeight, GRAY));
+        //std::cout<<f<<std::endl;
+        i++;
     }
 }
 
 void Game::drawLevelSelector() {
-    
+    // Draw
+    BeginDrawing();
+        ClearBackground(RAYWHITE);
+        for(auto& b: this->mapButtons)
+        {
+           b->draw();
+        }
+        this->scene->draw();
+    EndDrawing(); 
 }

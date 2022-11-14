@@ -23,6 +23,7 @@ private:
     lua_State* L;
     GAME_STATE gameState;
     std::vector<Button> buttons;
+    std::vector<Button*> mapButtons;
     mapLoader* map;
     Editor* editor;//This is causing stack mashing? and seg fault?
 
