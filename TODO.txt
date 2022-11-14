@@ -1,6 +1,6 @@
--MENU: Load level from file
-    -Show all avaliable levels
-
 -Create som enemy
     -Moves left and right only
     -Behaviour defined in lua
+
+-Editor
+    Boxes on the bottom needs to have coords y=0 and not be dependant on the screen size.

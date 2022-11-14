@@ -15,9 +15,9 @@ public:
     void load();
     void unLoad();
     void setCurrentMap(std::string name);
-    void updateFiles();
     std::vector<std::string>* getFiles();
 private:
+    void updateFiles();
     Scene* scene;
     std::vector<std::string> files;
     std::vector<int> mapEnteties;

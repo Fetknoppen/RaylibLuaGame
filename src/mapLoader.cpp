@@ -14,10 +14,12 @@ mapLoader::~mapLoader() {
 
 void mapLoader::load() {
     std::ifstream cur;
-    std::string path = "../Levels/"+this->currentMap+".txt";
+    std::string path = "../Levels/"+this->currentMap;
     cur.open(path);
+    std::cout<<"Trying to load "<<this->currentMap<<std::endl;
     if(cur.is_open())
     {
+        std::cout<<"Loading "<<this->currentMap<<std::endl;
         std::string delimiter_space = " ";
         std::string delimiter_comma = ",";
         std::string token;
@@ -41,7 +43,7 @@ void mapLoader::load() {
             line.erase(0, pos+delimiter_comma.size());
             token = position.z = std::stof(line);
             
-            //std::cout<<"Type: "<<type<<" x: "<<position.x<<" y: "<<position.y<<" z: "<<position.z<<std::endl;
+            std::cout<<"Type: "<<type<<" x: "<<position.x<<" y: "<<position.y<<" z: "<<position.z<<std::endl;
 
             this->mapEnteties.push_back(this->scene->CreateEntity());
             TransformComponent& trans = this->scene->GetComponent<TransformComponent>(this->mapEnteties.back());
@@ -49,6 +51,10 @@ void mapLoader::load() {
             MeshComponent meshComp("UBot-OBJ.obj");
 		    scene->SetComponent<MeshComponent>(this->mapEnteties.back(), meshComp);
         }      
+    }
+    else
+    {
+        std::cout<<"Could not open "<<this->currentMap<<std::endl;
     }
 }
 
@@ -64,10 +70,12 @@ void mapLoader::setCurrentMap(std::string name) {
 }
 
 std::vector<std::string>* mapLoader::getFiles() {
+    this->updateFiles();
     return &this->files;
 }
 
 void mapLoader::updateFiles() {
+    this->files.clear();
     std::string path = "../Levels/";
     std::string temp;
     for (const auto& entry : std::filesystem::directory_iterator(path))
