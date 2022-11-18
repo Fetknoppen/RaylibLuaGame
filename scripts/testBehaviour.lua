@@ -4,13 +4,14 @@ local test = {}
 local moveRight
 local jump
 local entityID
+local speed
 
 function test:start()
     --Called once
     entityID = self.ID
     jump = false;
     grounded = true
-   
+    speed = 10
     --print(entityID)
 end
 
@@ -24,10 +25,10 @@ function test:update(delta)
     end
     if scene.IsKeyDown("A") then
         print("Moving left!")
-        trans.position.x = trans.position.x - 1 * delta
+        trans.position.x = trans.position.x - speed * delta
     elseif scene.IsKeyDown("D") then
         print("Moving right!")
-        trans.position.x = trans.position.x + 1 * delta
+        trans.position.x = trans.position.x + speed * delta
     end
 
     scene.SetComponent(entityID, "Transform", trans)

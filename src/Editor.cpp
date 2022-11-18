@@ -80,7 +80,8 @@ bool Editor::save(std::string name) {
     {
         if(c.used)
         {
-            c.position.y = (c.position.y - GetScreenHeight())*(-1.0f);
+            c.position.y = (c.position.y - GetScreenHeight())*(-1.0f) - CELL_SIZE.y;
+
             file<<c.type<<" "<<c.position.x<<","<<c.position.y<<","<<"0\n";
         }
     }

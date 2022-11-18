@@ -2,5 +2,10 @@
     -Moves left and right only
     -Behaviour defined in lua
 
--Editor
-    Boxes on the bottom needs to have coords y=0 and not be dependant on the screen size.
+-Replace model with some cubes
+-Align cubes so there is no gap between them
+-Maybe scale player?
+-Set collision boxes on cubes
+-Apply gravity to player
+-Make player jump
+
