@@ -1,4 +1,5 @@
 #include "mapLoader.hpp"
+#include "raylib.h"
 
 
 mapLoader::mapLoader(Scene* scene)
@@ -48,8 +49,27 @@ void mapLoader::load() {
             this->mapEnteties.push_back(this->scene->CreateEntity());
             TransformComponent& trans = this->scene->GetComponent<TransformComponent>(this->mapEnteties.back());
             trans.position = position;
-            MeshComponent meshComp("UBot-OBJ.obj");
+            MeshComponent meshComp;
+            switch (type)
+            {
+            case 1:
+                meshComp.name = "cube";
+                break;
+            case 2:
+                meshComp.name = "UBot-OBJ.obj";
+                break;
+            default:
+                std::cout<<"ERROR: Map loader, invalid object type :"<<type<<std::endl;
+                break;
+            }
 		    scene->SetComponent<MeshComponent>(this->mapEnteties.back(), meshComp);
+
+            BoundingBox box;
+            box.min = (Vector3){position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
+            box.max = (Vector3){position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
+            CollisionComp col(false);
+            col.box = box;
+		    scene->SetComponent<CollisionComp>(this->mapEnteties.back(), col);
         }      
     }
     else

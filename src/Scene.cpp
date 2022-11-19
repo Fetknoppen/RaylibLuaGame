@@ -27,15 +27,28 @@ void Scene::draw()
 	auto view = this->m_registry.view<TransformComponent, MeshComponent>();
 	view.each([&](const TransformComponent& transform, const MeshComponent& meshComp)
 	{
-		Model* modelPtr = this->rsHandler.getModel(meshComp.name);
-		if (modelPtr != nullptr)
+		if(meshComp.name == "cube")
 		{
-			DrawModel(*modelPtr, transform.position, 0.02f, RED);
+			DrawCube(transform.position, CELL_SIZE.x, CELL_SIZE.y, CELL_SIZE.x, BLUE);
 		}
 		else
 		{
-			std::cout<<"Error: Model is not loaded yet.\n";
+			Model* modelPtr = this->rsHandler.getModel(meshComp.name);
+			if (modelPtr != nullptr)
+			{
+				DrawModel(*modelPtr, transform.position, transform.scale.x, RED);
+			}
+			else
+			{
+				std::cout<<"Error: Model is not loaded yet.\n";
+			}
 		}
+	});
+
+	auto view2 = this->m_registry.view<TransformComponent, CollisionComp>();
+	view2.each([&](const TransformComponent& transform, const CollisionComp& col)
+	{
+		DrawBoundingBox(col.box, GREEN);
 	});
 
 	EndMode3D();
@@ -184,7 +197,21 @@ int Scene::lua_SetComponent(lua_State* L)
 		
 		return 1;
 	}
-
+	else if(type == "Collider"){
+		Vector3 position = lua_tovector(L, 3);
+		float sizeX = lua_tonumber(L, 4);
+		float sizeY = lua_tonumber(L, 5);
+		BoundingBox box;
+		box.min = position;
+		box.min.x -= sizeX/2.0f;
+		box.min.y -= sizeY/2.0f;
+		box.max = position;
+		box.max.x += sizeX/2.0f;
+		box.max.y += sizeY/2.0f;
+		CollisionComp col;
+		col.box = box;
+		scene->SetComponent<CollisionComp>(entity, col);
+	}
 	return 0;
 }
 

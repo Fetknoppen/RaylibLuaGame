@@ -23,6 +23,14 @@ struct MeshComponent
 {
 	std::string name;
 	MeshComponent(std::string name):name(name){}
+	MeshComponent(){}
+};
+
+struct CollisionComp
+{
+	bool movable;
+	BoundingBox box;
+	CollisionComp(bool movable = true):movable(movable){}
 };
 
 struct Behaviour

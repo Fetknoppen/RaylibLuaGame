@@ -79,6 +79,7 @@ void Game::run()
 void Game::setSystems()
 {
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
+    this->scene->AddSystem("PhysichsSystem",new PhysichsSystem(L));
 }
 
 void Game::checkMenuSwitch()
@@ -124,6 +125,7 @@ void Game::startMenu()
 {
     this->scene->resetBehaviours(L);
     this->scene->RemoveSystem("BehaviourSystem");
+    this->scene->RemoveSystem("PhysichsSystem");
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
 
@@ -167,6 +169,7 @@ void Game::startGame()
 {
     //luaL_dofile(this->L, "../scripts/test.lua");
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
+    this->scene->AddSystem("PhysichsSystem",new PhysichsSystem(L));
     this->map->load();
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
@@ -194,6 +197,7 @@ void Game::startEditor()
 {
     this->editor->init();
     this->scene->RemoveSystem("BehaviourSystem");
+    this->scene->RemoveSystem("PhysichsSystem");
     this->scene->resetBehaviours(L);
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 300.0f});
 
@@ -283,6 +287,10 @@ void Game::drawEditor()
 }
 
 void Game::startLevelSelector() {
+
+    this->scene->RemoveSystem("BehaviourSystem");
+    this->scene->RemoveSystem("PhysichsSystem");
+
     for(auto* b: this->mapButtons)
     {
         delete b;
@@ -321,6 +329,7 @@ void Game::drawLevelSelector() {
     // Draw
     BeginDrawing();
         ClearBackground(RAYWHITE);
+        this->scene->draw();
         for(auto& b: this->mapButtons)
         {
            b->draw();
@@ -332,6 +341,5 @@ void Game::drawLevelSelector() {
                 return;
            }
         }
-        this->scene->draw();
     EndDrawing(); 
 }

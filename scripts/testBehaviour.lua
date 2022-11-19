@@ -11,7 +11,7 @@ function test:start()
     entityID = self.ID
     jump = false;
     grounded = true
-    speed = 10
+    speed = 100
     --print(entityID)
 end
 
@@ -33,7 +33,7 @@ function test:update(delta)
 
     scene.SetComponent(entityID, "Transform", trans)
 
-    scene.SetCamPos(trans.position + vector(0,0,10))
+    scene.SetCamPos(trans.position + vector(0,30,150))
 
 
 end
@@ -41,7 +41,7 @@ end
 function test:reset()
     print("RESET")
     local trans = scene.GetComponent(entityID, "Transform")
-    trans.position = vector(0,0,0)
+    trans.position = vector(10, 30, 0)
     scene.SetComponent(entityID, "Transform", trans)
 end
 

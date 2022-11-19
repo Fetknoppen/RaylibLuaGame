@@ -46,3 +46,41 @@ public:
 		return false;
 	}
 };
+
+class PhysichsSystem : public System
+{
+	lua_State* L;
+public:
+	PhysichsSystem(lua_State* L)
+		:L(L)
+	{
+
+	}
+
+
+	bool OnUpdate(entt::registry& registry, float delta) final
+	{
+		auto view = registry.view<TransformComponent, CollisionComp>();
+		view.each([&](const TransformComponent& transform, CollisionComp& col)
+		{
+			//Move collider
+			if(col.movable)
+			{
+				float xSize = col.box.max.x - col.box.min.x;
+				float ySize = col.box.max.y - col.box.min.y;
+				float zSize = col.box.max.z - col.box.min.z;
+				Vector3 minPosition = (Vector3){transform.position.x - xSize/2.0f, 
+												transform.position.y, 
+												transform.position.z - xSize/2.0f};
+				Vector3 maxPosition = (Vector3){transform.position.x + xSize/2.0f, 
+												transform.position.y + ySize, 
+												transform.position.z + zSize/2.0f};
+				col.box.min = minPosition;
+				col.box.max = maxPosition;
+			}
+			
+		});
+
+		return false;
+	}
+};

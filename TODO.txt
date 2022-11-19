@@ -2,10 +2,7 @@
     -Moves left and right only
     -Behaviour defined in lua
 
--Replace model with some cubes
--Align cubes so there is no gap between them
--Maybe scale player?
--Set collision boxes on cubes
 -Apply gravity to player
 -Make player jump
 
+-Fix all operation for components for CollisionComp (Remove, has...)

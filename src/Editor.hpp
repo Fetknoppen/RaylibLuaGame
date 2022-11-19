@@ -5,7 +5,7 @@
 #include "Scene.hpp"
 #include "raylib.h"
 
-const Vector2 CELL_SIZE = (Vector2){30.0f, 30.0f};
+//Cell size defined in Scene
 
 struct cell
 {
