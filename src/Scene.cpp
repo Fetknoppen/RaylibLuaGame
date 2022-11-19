@@ -260,6 +260,9 @@ int Scene::lua_HasComponent(lua_State* L)
 	else if(type == "Behaviour"){
 		hascomponent = scene->HasComponents<Behaviour>(entity);
 	}
+	else if(type == "Collider"){
+		hascomponent = scene->HasComponents<CollisionComp>(entity);
+	}
 
 	lua_pushboolean(L, hascomponent);
 	return 1;
@@ -312,6 +315,9 @@ int Scene::lua_RemoveComponent(lua_State* L)
 	}
 	else if(type == "Behaviour"){
 		scene->RemoveComponent<Behaviour>(entity);
+	}
+	else if(type == "Collider"){
+		scene->RemoveComponent<CollisionComp>(entity);
 	}
 	return 0;
 }
