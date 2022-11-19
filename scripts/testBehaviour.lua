@@ -13,6 +13,7 @@ function test:start()
     jump = false;
     grounded = true
     speed = 100
+    moveDelta = vector(0,0,0)
     --print(entityID)
 end
 
@@ -20,22 +21,25 @@ function test:update(delta)
 
     --Called once per frame
     local trans = scene.GetComponent(entityID, "Transform")
+    local direction = vector(0,0,0)
     if (scene.IsKeyPressed("SPACE") and  grounded)then
         print("JUMP")
     end
     if scene.IsKeyDown("A") then
-        --print("Moving left!")
-        trans.position.x = trans.position.x - speed * delta
-    elseif scene.IsKeyDown("D") then
-        --print("Moving right!")
-        trans.position.x = trans.position.x + speed * delta
-    elseif scene.IsKeyDown("W") then
-        --print("Moving up!")
-        trans.position.y = trans.position.y + speed * delta
-    elseif scene.IsKeyDown("S") then
-        --print("Moving down!")
-        trans.position.y = trans.position.y - speed * delta
+        direction = direction + vector(-1,0,0)
     end
+    if scene.IsKeyDown("D") then
+        direction = direction + vector(1,0,0)
+    end
+    if scene.IsKeyDown("W") then
+        direction = direction + vector(0,1,0)
+    end
+    if scene.IsKeyDown("S") then
+        direction = direction + vector(0,-1,0)
+    end
+
+    moveDelta = direction * speed * delta
+    trans.position = trans.position + moveDelta
 
     scene.SetComponent(entityID, "Transform", trans)
 
@@ -43,9 +47,13 @@ function test:update(delta)
 
 end
 
-function test:onCollision(type)
+function test:onCollision(what)
     --called on collision
     print("Collision "..type)
+    local trans = scene.GetComponent(entityID, "Transform")
+    trans.position = trans.position - moveDelta
+    scene.SetComponent(entityID, "Transform", trans)
+
 end
 
 function test:reset()

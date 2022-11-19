@@ -82,25 +82,14 @@ public:
 			{
 				if(CheckCollisionBoxes(col.box, col2.box) && col.id != col2.id)
 				{
-					std::string where;
-					if(col.box.min.y < col2.box.max.y && col.box.min.y > col2.box.min.y)
-					{
-						//Collision below player
-						where = "below";
-						
-					}
-					else if(col.box.min.y < col2.box.min.y && col.box.max.y > col2.box.min.y)
-					{
-						//Collision above player
-						where = "above";
-					}
+					std::string what = "floor";
 					
 					//std::cout<<"Collision!\n";
 					lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);
 
 					lua_getfield(L, -1, "onCollision");
 					lua_pushvalue(L, -2);
-					lua_pushstring(L, where.c_str());
+					lua_pushstring(L, what.c_str());
 
 					if(lua_pcall(L, 2, 0, 0) != LUA_OK){
 						std::cout<<"Failed to call\n";
