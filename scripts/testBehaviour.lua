@@ -49,7 +49,7 @@ end
 
 function test:onCollision(what)
     --called on collision
-    print("Collision "..type)
+    print("Collision "..what)
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = trans.position - moveDelta
     scene.SetComponent(entityID, "Transform", trans)
