@@ -5,4 +5,3 @@
 -Apply gravity to player
 -Make player jump
 
--Fix all operation for components for CollisionComp (Remove, has...)
