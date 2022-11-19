@@ -67,7 +67,7 @@ void mapLoader::load() {
             BoundingBox box;
             box.min = (Vector3){position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
             box.max = (Vector3){position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
-            CollisionComp col(false);
+            CollisionComp col;
             col.box = box;
 		    scene->SetComponent<CollisionComp>(this->mapEnteties.back(), col);
         }      

@@ -26,11 +26,13 @@ struct MeshComponent
 	MeshComponent(){}
 };
 
+
+static int newColID = 0;
 struct CollisionComp
 {
-	bool movable;
+	int id;
 	BoundingBox box;
-	CollisionComp(bool movable = true):movable(movable){}
+	CollisionComp(){id = newColID++;}
 };
 
 struct Behaviour
