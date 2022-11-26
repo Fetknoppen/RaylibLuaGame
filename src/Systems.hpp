@@ -120,7 +120,8 @@ public:
 			Vector3 pos2 = col.box.min;
 			Vector3 pos3 = col.box.min;
 			pos.x += (col.box.max.x - col.box.min.x)/2.0f;
-			pos3.x = col.box.max.x;
+			pos2.x += 2.0f;
+			pos3.x = col.box.max.x - 2.0f;
 			Ray downRayMid;
 			downRayMid.position = pos;
 			downRayMid.direction = (Vector3){0.0f, -1.0f, 0.0f};
