@@ -6,12 +6,12 @@ scene.SetComponent(entity, "Behaviour", "testBehaviour.lua")
 local trans = scene.GetComponent(entity, "Transform")
 
 scene.SetComponent(entity, "Transform", trans)
-trans.scale = vector(0.15,0.15,0.15)
+trans.scale = vector(0.1,0.1,0.1)
 trans.position = vector(10, 30, 0)
 scene.SetComponent(entity, "Transform", trans)
 
 --Position    sizeX    SizeY
-scene.SetComponent(entity, "Collider", trans.position, 25, 25)
+scene.SetComponent(entity, "Collider", trans.position, 10, 10)
 print("Set collider!\n\n")
 
 
