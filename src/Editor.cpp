@@ -98,5 +98,5 @@ void Editor::init() {
     this->currentType = 1;
     this->gridSizeX = (int)(GetScreenWidth()/CELL_SIZE.x);
     this->gridSizeY = (int)(GetScreenHeight()/CELL_SIZE.y);
-    setUpGrid();    
+    setUpGrid();   
 }

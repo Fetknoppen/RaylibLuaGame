@@ -82,6 +82,12 @@ function test:update(delta)
     scene.SetCamPos(trans.position + vector(0,30,150))
     grounded = false
     collided = false
+
+    if trans.position.x > scene.GetScreenWidth() then
+        print("WIN!")
+        print(scene.GetScreenWidth())
+        scene.winGame()
+    end
 end
 
 function test:onCollision(what)

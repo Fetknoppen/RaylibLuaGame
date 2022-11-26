@@ -181,8 +181,9 @@ void Game::drawGame()
 {
     //Update
     this->scene->UpdateSystems(GetFrameTime());
-    if(IsKeyPressed(KEY_DELETE))
+    if(IsKeyPressed(KEY_DELETE) || this->scene->win)
     {
+        this->scene->win = false;
         this->map->unLoad();
         this->startMenu();
         this->gameState = GAME_STATE::MENU;

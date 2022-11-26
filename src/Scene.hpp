@@ -70,7 +70,7 @@ class Scene {
 public:
 	Scene();
 	~Scene();
-
+	bool win;
 public:
 	Camera* getCam();
 	void init();
@@ -115,6 +115,8 @@ private:
 
 	static int lua_LoadModel(lua_State* L);
 	static int lua_setCameraPos(lua_State* L);
+	static int lua_winGame(lua_State* L);
+	static int lua_getScreenWidth(lua_State* L);
 	static int lua_isKeyPressed(lua_State* L);
 	static int lua_isKeyDown(lua_State* L);
 	static int lua_isKeyUp(lua_State* L);

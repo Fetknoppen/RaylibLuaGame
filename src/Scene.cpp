@@ -18,6 +18,7 @@ Scene::~Scene()
 void Scene::init()
 {
 	setCameraPosition((Vector3){ 0.0f, 0.0f, 10.0f });
+	this->win = false;
 }
 
 void Scene::draw()
@@ -109,6 +110,8 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 	// this->luaComponents.push_back("Mesh");
 		{"LoadModel", lua_LoadModel},
 		{"SetCamPos", lua_setCameraPos},
+		{"winGame", lua_winGame},
+		{"GetScreenWidth", lua_getScreenWidth},
 		{"IsKeyPressed", lua_isKeyPressed},
 		{"IsKeyDown", lua_isKeyDown},
 		{"IsKeyUp", lua_isKeyUp},
@@ -329,6 +332,13 @@ int Scene::lua_setCameraPos(lua_State* L) {
 	return 0;
 }
 
+int Scene::lua_winGame(lua_State* L)
+{
+	Scene* scene = lua_GetSceneUpValue(L);
+	scene->win = true;
+	return 1;
+}
+
 void Scene::setCameraPosition(Vector3 position) {
 	this->camera = { 0 };
     this->camera.position = position;
@@ -336,6 +346,11 @@ void Scene::setCameraPosition(Vector3 position) {
     this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
+}
+
+int Scene::lua_getScreenWidth(lua_State* L) {
+	lua_pushinteger(L, GetScreenWidth());
+	return 1;
 }
 
 int Scene::lua_isKeyPressed(lua_State* L) {
