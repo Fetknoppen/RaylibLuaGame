@@ -1,7 +1,9 @@
+-Apply gravity to player
+-Make player jump
+-Scale player
+-Create a start and end
+-Make level select buttons bigger
+
 -Create som enemy
     -Moves left and right only
     -Behaviour defined in lua
-
--Apply gravity to player
--Make player jump
-

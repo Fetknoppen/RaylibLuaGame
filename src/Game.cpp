@@ -80,6 +80,7 @@ void Game::setSystems()
 {
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
     this->scene->AddSystem("CollisionSystem",new CollisionSystem(L));
+    this->scene->AddSystem("RayPhysSystem",new RayPhysSystem(L));
 }
 
 void Game::checkMenuSwitch()
@@ -126,6 +127,7 @@ void Game::startMenu()
     this->scene->resetBehaviours(L);
     this->scene->RemoveSystem("BehaviourSystem");
     this->scene->RemoveSystem("CollisionSystem");
+    this->scene->RemoveSystem("RayPhysSystem");
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
 
@@ -170,6 +172,7 @@ void Game::startGame()
     //luaL_dofile(this->L, "../scripts/test.lua");
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
     this->scene->AddSystem("CollisionSystem",new CollisionSystem(L));
+    this->scene->AddSystem("RayPhysSystem",new RayPhysSystem(L));
     this->map->load();
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
@@ -198,6 +201,7 @@ void Game::startEditor()
     this->editor->init();
     this->scene->RemoveSystem("BehaviourSystem");
     this->scene->RemoveSystem("CollisionSystem");
+    this->scene->RemoveSystem("RayPhysSystem");
     this->scene->resetBehaviours(L);
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 300.0f});
 
@@ -290,6 +294,7 @@ void Game::startLevelSelector() {
 
     this->scene->RemoveSystem("BehaviourSystem");
     this->scene->RemoveSystem("CollisionSystem");
+    this->scene->RemoveSystem("RayPhysSystem");
 
     for(auto* b: this->mapButtons)
     {

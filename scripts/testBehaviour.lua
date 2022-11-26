@@ -1,11 +1,11 @@
 local test = {}
 
 --Set variables
-local moveRight
 local jump
 local entityID
 local speed
 local moveDelta
+local grounded
 
 function test:start()
     --Called once
@@ -53,7 +53,10 @@ function test:onCollision(what)
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = trans.position - moveDelta
     scene.SetComponent(entityID, "Transform", trans)
+end
 
+function test:rayIntersect()
+    print("Grounded!")
 end
 
 function test:reset()
