@@ -14,6 +14,10 @@ function test::onCollision()
     --called on collision
 end
 
+function test:rayIntersect()
+    --called when grounded
+end
+
 function test:reset()
     --Called once at end
 end

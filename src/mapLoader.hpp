@@ -12,7 +12,7 @@ class mapLoader
 public:
     mapLoader(Scene* scene);
     ~mapLoader();
-    void load();
+    void load(lua_State* L);
     void unLoad();
     void setCurrentMap(std::string name);
     std::vector<std::string>* getFiles();

@@ -137,14 +137,16 @@ public:
 			{
 				if(col.id != col2.id)
 				{
+					bool grounded = false;
 					
 					RayCollision rayCol1 = GetRayCollisionBox(downRayMid, col2.box);
 					RayCollision rayCol2 = GetRayCollisionBox(downRayLeft, col2.box);
 					RayCollision rayCol3 = GetRayCollisionBox(downRayRight, col2.box);
+					//Some ray hit
 					if(rayCol1.hit || rayCol2.hit || rayCol3.hit)
 					{
 						//std::cout<<"Yes\nDistance: "<<rayCol.distance<<std::endl;
-						bool grounded = false;
+						
 						if(rayCol1.hit && rayCol1.distance < 5.0f)
 						{
 							grounded = true;

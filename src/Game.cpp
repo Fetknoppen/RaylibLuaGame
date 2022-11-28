@@ -38,7 +38,7 @@ void Game::run()
 
     startLevelSelector();
 
-    luaL_dofile(this->L, "../scripts/test.lua");
+    luaL_dofile(this->L, "../scripts/init.lua");
 
     this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));
     this->buttons.push_back(Button("Editor", "button1.png", {20.0f, 60.0f}, 100, 20, WHITE));
@@ -173,7 +173,7 @@ void Game::startGame()
     this->scene->AddSystem("BehaviourSystem",new BehaviourSystem(L));
     this->scene->AddSystem("CollisionSystem",new CollisionSystem(L));
     this->scene->AddSystem("RayPhysSystem",new RayPhysSystem(L));
-    this->map->load();
+    this->map->load(L);
     //this->scene->setCameraPosition((Vector3){0.0f,0.0f, 10.0f});
 }
 

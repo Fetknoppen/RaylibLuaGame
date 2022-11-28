@@ -75,6 +75,7 @@ public:
 	Camera* getCam();
 	void init();
 	void draw();
+	void addBehaviour(lua_State* L, int entity, std::string file);
 	void resetBehaviours(lua_State* L);
 	void AddSystem(std::string name, System* system);
 	void RemoveSystem(std::string name);

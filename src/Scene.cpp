@@ -38,6 +38,7 @@ void Scene::draw()
 			if (modelPtr != nullptr)
 			{
 				DrawModel(*modelPtr, transform.position, transform.scale.x, RED);
+				//std::cout<<"Drawing model: "<< meshComp.name <<"\n";
 			}
 			else
 			{
@@ -122,7 +123,7 @@ void Scene::lua_openscene(lua_State* L, Scene* scene)
 		{"RemoveComponent", lua_RemoveComponent},
 		{"HasComponent", lua_HasComponent},
 		{"GetComponent", lua_GetComponent},
-		{"RemoveComponent", lua_RemoveComponent},
+		{"RemoveEntity", lua_RemoveEntity},
 		//This array has to end with {NULL, NULL}, 
 		//so that luaL_setfuncs know to stop reading
 		{NULL, NULL}
@@ -372,6 +373,25 @@ int Scene::lua_isKeyUp(lua_State* L) {
     std::string key = lua_tostring(L, 1);
 	lua_pushboolean(L, IsKeyUp(scene->inputKeys[key]));
 	return 1;
+}
+
+void Scene::addBehaviour(lua_State* L, int entity, std::string file)
+{
+	if(this->HasComponents<Behaviour>(entity)){
+		this->RemoveComponent<Behaviour>(entity);
+	}
+	file = "../scripts/"+file;
+	luaL_dofile(L, file.c_str());
+	lua_pushvalue(L, -1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+	lua_pushinteger(L, entity);
+	lua_setfield(L, -2, "ID");
+	lua_pushstring(L, file.c_str());
+	lua_setfield(L, -2, "path");
+	lua_getfield(L, -1, "start");
+	lua_pushvalue(L, -2);
+	lua_pcall(L, 1, 0, 0);
+	this->SetComponent<Behaviour>(entity, file.c_str(), ref);
 }
 
 void Scene::resetBehaviours(lua_State* L) {

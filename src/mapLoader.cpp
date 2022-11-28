@@ -13,7 +13,7 @@ mapLoader::~mapLoader() {
     std::cout<<"Map deconstructor end\n";
 }
 
-void mapLoader::load() {
+void mapLoader::load(lua_State* L) {
     std::ifstream cur;
     std::string path = "../Levels/"+this->currentMap;
     cur.open(path);
@@ -45,28 +45,34 @@ void mapLoader::load() {
             token = position.z = std::stof(line);
             
             std::cout<<"Type: "<<type<<" x: "<<position.x<<" y: "<<position.y<<" z: "<<position.z<<std::endl;
-
             this->mapEnteties.push_back(this->scene->CreateEntity());
             TransformComponent& trans = this->scene->GetComponent<TransformComponent>(this->mapEnteties.back());
             trans.position = position;
             MeshComponent meshComp;
+            BoundingBox box;
             switch (type)
             {
             case 1:
                 meshComp.name = "cube";
+                box.min = (Vector3){position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
+                box.max = (Vector3){position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
                 break;
             case 2:
+            {
+                scene->addBehaviour(L, this->mapEnteties.back(), "enemy.lua");
                 meshComp.name = "UBot-OBJ.obj";
-                break;
+                trans.scale.x = 0.1f;
+                box.min = (Vector3){position.x - CELL_SIZE.x/4.0f, position.y - CELL_SIZE.y/4.0f, position.z - CELL_SIZE.x/4.0f};
+                box.max = (Vector3){position.x + CELL_SIZE.x/4.0f, position.y + CELL_SIZE.y/4.0f, position.z + CELL_SIZE.x/4.0f};
+            }
+            //break;
             default:
-                std::cout<<"ERROR: Map loader, invalid object type :"<<type<<std::endl;
+                std::cout<<"ERROR: Map loader, invalid object type: "<<type<<std::endl;
                 break;
             }
 		    scene->SetComponent<MeshComponent>(this->mapEnteties.back(), meshComp);
 
-            BoundingBox box;
-            box.min = (Vector3){position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
-            box.max = (Vector3){position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
+            
             CollisionComp col;
             col.box = box;
 		    scene->SetComponent<CollisionComp>(this->mapEnteties.back(), col);

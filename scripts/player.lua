@@ -1,4 +1,4 @@
-local test = {}
+local player = {}
 
 --Set variables
 local jump
@@ -13,9 +13,8 @@ local maxVelocity
 local minVelocity 
 local jumpForce
 local gravity
-local colSafty
 
-function test:start()
+function player:start()
     --Called once
     entityID = self.ID
     jump = false;
@@ -29,10 +28,9 @@ function test:start()
     minVelocity = -100.0
     jumpForce = 210.0
     gravity = 2.0
-    --print(entityID)
 end
 
-function test:update(delta)
+function player:update(delta)
 
     --Called once per frame
     local trans = scene.GetComponent(entityID, "Transform")
@@ -90,7 +88,7 @@ function test:update(delta)
     end
 end
 
-function test:onCollision(what)
+function player:onCollision(what)
     --called on collision
     --print("Collision "..what)
     local trans = scene.GetComponent(entityID, "Transform")
@@ -100,16 +98,16 @@ function test:onCollision(what)
     collided = true
 end
 
-function test:rayIntersect()
-    --print("Grounded!")
+function player:rayIntersect()
+    --Calles when all ground rays are collidong with something
     grounded = true
 end
 
-function test:reset()
+function player:reset()
     print("RESET")
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = vector(10, 30, 0)
     scene.SetComponent(entityID, "Transform", trans)
 end
 
-return test
+return player
