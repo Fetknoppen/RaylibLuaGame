@@ -78,12 +78,16 @@ public:
 			col.box.max = maxPosition;
 
 
-			auto view2 = registry.view<TransformComponent, CollisionComp>();
-			view2.each([&](const TransformComponent& transform2, CollisionComp& col2)
+			auto view2 = registry.view<TransformComponent, CollisionComp, MeshComponent>();
+			view2.each([&](const TransformComponent& transform2, CollisionComp& col2, MeshComponent& meshComp)
 			{
 				if(CheckCollisionBoxes(col.box, col2.box) && col.id != col2.id)
 				{
 					std::string what = "floor";
+					if(meshComp.name == "UBot-OBJ.obj")
+					{
+						what = "player";				
+					}
 					
 					//std::cout<<"Collision!\n";
 					lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);

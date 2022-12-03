@@ -91,6 +91,9 @@ end
 function player:onCollision(what)
     --called on collision
     --print("Collision "..what)
+    if what == "player" then
+        print("Plajer collision with enemy")
+    end
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = trans.position - moveDelta * 1.0
     scene.SetComponent(entityID, "Transform", trans)

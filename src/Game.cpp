@@ -23,6 +23,7 @@ Game::~Game()
     //delete this->map;
     //delete this->editor;
     std::cout<<"Game deconstructor\n";
+    CloseWindow(); 
 }
 
 void Game::run()
