@@ -106,7 +106,7 @@ void mapLoader::updateFiles() {
     std::string temp;
     for (const auto& entry : std::filesystem::directory_iterator(path))
     {
-        temp = entry.path();
+        temp = entry.path().generic_string();
         temp.erase(0, path.length());
         this->files.push_back(temp);
     }    

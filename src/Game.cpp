@@ -210,12 +210,12 @@ void Game::startEditor()
 
 void Game::drawEditor()
 {
-    //Update
+    // //Update
 
     this->scene->UpdateSystems(GetFrameTime());
     if( this->mapSave)
     {
-        char c = GetCharPressed();
+        char c = GetKeyPressed();
         if(c != 0)
         {
             std::cout<<"input char: "<<c<<std::endl;
@@ -312,7 +312,7 @@ void Game::startLevelSelector() {
     {
         float buttonWidth = 30.0f;
         float buttonHeight = 20.0f;
-        Vector2 buttonPos =  (Vector2){0.0f, 0.0f};
+        Vector2 buttonPos =  {0.0f, 0.0f};
         buttonPos.x = x * (buttonWidth+buffer);
         buttonPos.y = y * (buttonHeight+buffer);
         x++;
