@@ -30,9 +30,9 @@ private:
 private:
     bool mapSave;
     std::string mapSaveName;
+    bool quit;
 
 private:
-    void checkMenuSwitch();
     void setSystems();
     void startMenu();
     void drawMenu();

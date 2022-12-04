@@ -3,11 +3,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-SET (LUA_DIR "libs/lua")
-set(LUA_VERSION 5.4.1)
 set(RAYLIB_VERSION 4.2)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # or games
+
+set(LUA_VERSION 5.4.1)
+set(LUA_DIR "libs/lua")
 
 project(game)
 
@@ -57,14 +58,6 @@ add_library(
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib lua)
 
-# if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-# #64-bit system
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/libraylib_amd64.a ${CMAKE_SOURCE_DIR}/libs/liblua.a)
-# elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-# #32-bit system
-# target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/libs/libraylib_i386.a ${CMAKE_SOURCE_DIR}/libs/liblua.a)
-# endif()
-
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_include_directories(${PROJECT_NAME} PUBLIC libs)
+#target_include_directories(${PROJECT_NAME} PUBLIC libs)
 target_include_directories(${PROJECT_NAME} PUBLIC src)

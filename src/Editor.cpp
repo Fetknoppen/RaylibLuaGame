@@ -25,11 +25,19 @@ void Editor::update() {
         std::cout<<"Enemy selected\n";
         this->currentType = 2;
     }
+    else if(IsKeyPressed(KEY_C))
+    {
+        for(auto& c: this->grid)
+        {
+            c.used = false;
+            c.type = 0;
+        }
+    }
 
     for(auto& c: this->grid)
     {
         
-        if(c.canClick())
+        if(c.canClickCell())
         {
             if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !c.used)
             {

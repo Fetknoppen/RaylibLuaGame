@@ -39,15 +39,15 @@ struct cell
     {
         this->type = type;
     }
-    bool canClick()
+    bool canClickCell()
     {
         bool ret = false;
         Vector2 mousePos = GetMousePosition();
-        Vector2 min = Vector2({this->position.x - this->size.x/2, this->position.y - this->size.y/2});
-        Vector2 max = Vector2({this->position.x + this->size.x/2, this->position.y + this->size.y/2});
-        if(mousePos.x >= min.x && mousePos.y >= min.y )
+        Vector2 min = Vector2({this->position.x, this->position.y});
+        Vector2 max = Vector2({this->position.x + this->size.x, this->position.y + this->size.y});
+        if(mousePos.x > min.x && mousePos.y > min.y )
         {
-            if(mousePos.x <= max.x && mousePos.y <= max.y)
+            if(mousePos.x < max.x && mousePos.y < max.y)
             {
                 ret = true;
                

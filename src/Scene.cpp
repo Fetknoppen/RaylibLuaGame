@@ -47,10 +47,13 @@ void Scene::draw()
 		}
 	});
 
-	auto view2 = this->m_registry.view<TransformComponent, CollisionComp>();
-	view2.each([&](const TransformComponent& transform, const CollisionComp& col)
+	auto view2 = this->m_registry.view<TransformComponent, CollisionComp, MeshComponent>();
+	view2.each([&](const TransformComponent& transform, const CollisionComp& col, const MeshComponent& meshComp)
 	{
-		DrawBoundingBox(col.box, GREEN);
+		if(meshComp.name == "cube")
+		{
+			DrawBoundingBox(col.box, GREEN);
+		}
 	});
 
 	EndMode3D();
