@@ -80,17 +80,20 @@ function enemy:update(delta)
     end
 end
 
-function enemy:onCollision(what)
+function enemy:onCollision(who, what)
     --called on collision
     --print("Collision "..what)
     if what == "player" then
-        print("Enemy collision with player")
+        print("Enemy: Hit player")
+        --scene.RemoveEntity(entityID)
+    else 
+        local trans = scene.GetComponent(entityID, "Transform")
+        trans.position = trans.position - moveDelta * 1.0
+        scene.SetComponent(entityID, "Transform", trans)
+        moveDelta = vector(0,0,0)
+        collided = true
     end
-    local trans = scene.GetComponent(entityID, "Transform")
-    trans.position = trans.position - moveDelta * 1.0
-    scene.SetComponent(entityID, "Transform", trans)
-    moveDelta = vector(0,0,0)
-    collided = true
+
 end
 
 function enemy:rayIntersect()

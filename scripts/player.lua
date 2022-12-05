@@ -13,10 +13,12 @@ local maxVelocity
 local minVelocity 
 local jumpForce
 local gravity
+local health
 
 function player:start()
     --Called once
     entityID = self.ID
+    health = 100
     jump = false;
     grounded = false
     collided = false
@@ -45,17 +47,11 @@ function player:update(delta)
     if scene.IsKeyDown("D") then
         direction = direction + vector(1,0,0)
     end
-    -- if scene.IsKeyDown("W") then
-    --     direction = direction + vector(0,1,0)
-    -- end
-    -- if scene.IsKeyDown("S") then
-    --     direction = direction + vector(0,-1,0)
-    -- end
+
 
     moveDelta = direction * speed * delta
     trans.position = trans.position + moveDelta
 
-    --scene.SetComponent(entityID, "Transform", trans)
 
     
     if not grounded then
@@ -86,14 +82,19 @@ function player:update(delta)
         print(scene.GetScreenWidth())
         scene.winGame()
     end
+    if health <= 0 then
+        print("LOOSE!")
+        scene.winGame()
+    end
 end
 
-function player:onCollision(what)
+function player:onCollision(who, what)
     --called on collision
     --print("Collision "..what)
     if what == "player" then
-        print("Plajer collision with enemy")
-        scene.winGame()
+        print("Player: collision with enemy")
+        scene.RemoveEntity(who)
+        health = health - 50
     end
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = trans.position - moveDelta * 1.0

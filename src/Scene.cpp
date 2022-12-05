@@ -86,13 +86,16 @@ bool Scene::IsEntity(int entity)
 {
 	return m_registry.valid((entt::entity)entity);
 }
-
 void Scene::RemoveEntity(int entity)
 {
-	if (this->IsEntity(entity)) {
+	if (this->IsEntity(entity)) 
+	{
 		m_registry.destroy((entt::entity)entity);
 	}
-	else {
+
+	else
+	{
+		std::cout<<"Error: Cant remove invalid entity.\n";
 	}
 }
 

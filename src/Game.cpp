@@ -176,6 +176,7 @@ void Game::drawEditor()
             {
                 std::cout<<"Pop\n";
                 this->mapSaveName.pop_back();
+                this->mapSaveName.pop_back();
             }
         }
         else if(IsKeyPressed(KEY_ENTER))

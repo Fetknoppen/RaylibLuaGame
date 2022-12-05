@@ -2,6 +2,12 @@ scene.LoadModel("UBot-OBJ.obj")
 
 entity = scene.CreateEntity()
 scene.SetComponent(entity, "Mesh", "UBot-OBJ.obj")
+
+--Removing and adding mesh just for demonstration
+scene.RemoveComponent(entity, "Mesh")
+scene.SetComponent(entity, "Mesh", "UBot-OBJ.obj")
+
+
 scene.SetComponent(entity, "Behaviour", "player.lua")
 local trans = scene.GetComponent(entity, "Transform")
 

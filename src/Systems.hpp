@@ -79,11 +79,12 @@ public:
 
 
 			auto view2 = registry.view<TransformComponent, CollisionComp, MeshComponent>();
-			view2.each([&](const TransformComponent& transform2, CollisionComp& col2, MeshComponent& meshComp)
+			view2.each([&](entt:: entity entity ,const TransformComponent& transform2, CollisionComp& col2, MeshComponent& meshComp)
 			{
 				if(CheckCollisionBoxes(col.box, col2.box) && col.id != col2.id)
 				{
 					std::string what = "floor";
+					int who = (int)entity;
 					if(meshComp.name == "UBot-OBJ.obj")
 					{
 						what = "player";				
@@ -94,9 +95,10 @@ public:
 
 					lua_getfield(L, -1, "onCollision");
 					lua_pushvalue(L, -2);
+					lua_pushinteger(L, who);
 					lua_pushstring(L, what.c_str());
 
-					if(lua_pcall(L, 2, 0, 0) != LUA_OK){
+					if(lua_pcall(L, 3, 0, 0) != LUA_OK){
 						std::cout<<"Failed to call\n";
 					}
 
