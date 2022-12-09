@@ -68,10 +68,10 @@ public:
 			float xSize = col.box.max.x - col.box.min.x;
 			float ySize = col.box.max.y - col.box.min.y;
 			float zSize = col.box.max.z - col.box.min.z;
-			Vector3 minPosition = (Vector3){transform.position.x - xSize/2.0f, 
+			Vector3 minPosition = {transform.position.x - xSize/2.0f, 
 											transform.position.y, 
 											transform.position.z - xSize/2.0f};
-			Vector3 maxPosition = (Vector3){transform.position.x + xSize/2.0f, 
+			Vector3 maxPosition = {transform.position.x + xSize/2.0f, 
 											transform.position.y + ySize, 
 											transform.position.z + zSize/2.0f};
 			col.box.min = minPosition;
@@ -130,13 +130,13 @@ public:
 			pos3.x = col.box.max.x - 2.0f;
 			Ray downRayMid;
 			downRayMid.position = pos;
-			downRayMid.direction = (Vector3){0.0f, -1.0f, 0.0f};
+			downRayMid.direction = {0.0f, -1.0f, 0.0f};
 			Ray downRayLeft;
 			downRayLeft.position = pos2;
-			downRayLeft.direction = (Vector3){0.0f, -1.0f, 0.0f};
+			downRayLeft.direction = {0.0f, -1.0f, 0.0f};
 			Ray downRayRight;
 			downRayRight.position = pos3;
-			downRayRight.direction = (Vector3){0.0f, -1.0f, 0.0f};
+			downRayRight.direction = {0.0f, -1.0f, 0.0f};
 
 			auto view2 = registry.view<TransformComponent, CollisionComp>();
 			view2.each([&](const TransformComponent& transform2, CollisionComp& col2)

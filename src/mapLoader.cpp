@@ -54,15 +54,15 @@ void mapLoader::load(lua_State* L) {
             {
             case 1:
                 meshComp.name = "cube";
-                box.min = (Vector3){position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
-                box.max = (Vector3){position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
+                box.min = {position.x - CELL_SIZE.x/2.0f, position.y - CELL_SIZE.y/2.0f, position.z - CELL_SIZE.x/2.0f};
+                box.max = {position.x + CELL_SIZE.x/2.0f, position.y + CELL_SIZE.y/2.0f, position.z + CELL_SIZE.x/2.0f};
                 break;
             case 2:
                 scene->addBehaviour(L, this->mapEnteties.back(), "enemy.lua");
                 meshComp.name = "UBot-OBJ.obj";
                 trans.scale.x = 0.1f;
-                box.min = (Vector3){position.x - CELL_SIZE.x/4.0f, position.y - CELL_SIZE.y/4.0f, position.z - CELL_SIZE.x/4.0f};
-                box.max = (Vector3){position.x + CELL_SIZE.x/4.0f, position.y + CELL_SIZE.y/4.0f, position.z + CELL_SIZE.x/4.0f};
+                box.min = {position.x - CELL_SIZE.x/4.0f, position.y - CELL_SIZE.y/4.0f, position.z - CELL_SIZE.x/4.0f};
+                box.max = {position.x + CELL_SIZE.x/4.0f, position.y + CELL_SIZE.y/4.0f, position.z + CELL_SIZE.x/4.0f};
                 break;
             }
 		    scene->SetComponent<MeshComponent>(this->mapEnteties.back(), meshComp);

@@ -17,7 +17,7 @@ Scene::~Scene()
 
 void Scene::init()
 {
-	setCameraPosition((Vector3){ 0.0f, 0.0f, 10.0f });
+	setCameraPosition({ 0.0f, 0.0f, 10.0f });
 	this->win = false;
 }
 
@@ -349,8 +349,8 @@ int Scene::lua_winGame(lua_State* L)
 void Scene::setCameraPosition(Vector3 position) {
 	this->camera = { 0 };
     this->camera.position = position;
-    this->camera.target = (Vector3){position.x, +position.y, position.z - 1.0f};
-    this->camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    this->camera.target = {position.x, +position.y, position.z - 1.0f};
+    this->camera.up = { 0.0f, 1.0f, 0.0f };
     this->camera.fovy = 60.0f;
     this->camera.projection = CAMERA_PERSPECTIVE;
 }

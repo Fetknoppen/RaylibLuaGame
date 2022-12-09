@@ -18,7 +18,7 @@ struct cell
 
     void draw()
     {
-        Vector3 drawPos = (Vector3){this->position.x+this->size.x/2, this->position.y+this->size.y/2, 0.0f};
+        Vector3 drawPos = {this->position.x+this->size.x/2, this->position.y+this->size.y/2, 0.0f};
         switch (this->type)
         {
         case 0:
