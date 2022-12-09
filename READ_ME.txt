@@ -10,7 +10,18 @@ Linux:
 		execute run.sh
 
 Windows:
-	To build and run on windows: (Requires MinGW)
+	To build and run on windows (Visual studio):
+		Start from directory "RaylibCmake"
+		open cmake gui
+			Set RaylibCmake to source
+			Set RaylibCmake/build to build
+			Generate
+		or use command: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+		Open "game" in build folder
+		Set "game" as startup poject
+		Run
+
+	To build and run on windows (MinGW):
 		Start from directory "RaylibCmake"
 		execute following commands in powershell
 			cmake -S . -B build -G "MinGW Makefiles"
