@@ -68,7 +68,7 @@ void Editor::setUpGrid() {
     {
         for(int y = 0; y < this->gridSizeY; y++)
         {
-            cell newCell((Vector2){0.0f,0.0f});
+            cell newCell({0.0f,0.0f});
             newCell.position.x = (newCell.size.x)*x;
             newCell.position.y = (newCell.size.y)*y;
             this->grid.push_back(newCell);

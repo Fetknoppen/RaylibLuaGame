@@ -10,7 +10,7 @@
 #include "ResourceHandler.hpp"
 
 
-const Vector2 CELL_SIZE = (Vector2){30.0f, 30.0f};
+const Vector2 CELL_SIZE = {30.0f, 30.0f};
 
 class Scene {
 
