@@ -24,6 +24,7 @@ private:
     GAME_STATE gameState;
     std::vector<Button> buttons;
     std::vector<Button*> mapButtons;
+    Button* saveButton;
     mapLoader* map;
     Editor* editor;//This is causing stack mashing? and seg fault?
 

@@ -19,7 +19,7 @@ Game::Game( lua_State* L)
 
 Game::~Game()
 {
-
+    delete this->saveButton;
 }
 
 void Game::run()
@@ -36,9 +36,10 @@ void Game::run()
 
     luaL_dofile(this->L, "../scripts/init.lua");
 
-    this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));
-    this->buttons.push_back(Button("Editor", "button1.png", {20.0f, 60.0f}, 100, 20, WHITE));
-    this->buttons.push_back(Button("Quit", "button1.png", {20.0f, 100.0f}, 100, 20, WHITE));
+    this->buttons.push_back(Button("Start", "button1.png", {20.0f, 20.0f}, 100, 20, WHITE));    //0
+    this->buttons.push_back(Button("Editor", "button1.png", {20.0f, 60.0f}, 100, 20, WHITE));   //1
+    this->buttons.push_back(Button("Quit", "button1.png", {20.0f, 100.0f}, 100, 20, WHITE));    //2
+    this->saveButton = new Button("Save", "button1.png", {100.0f, 100.0f}, 100, 20, WHITE);
 
     // Main game loop
     while (!WindowShouldClose() && !this->quit)    // Detect window close button or ESC key
@@ -164,6 +165,7 @@ void Game::drawEditor()
     this->scene->UpdateSystems(GetFrameTime());
     if( this->mapSave)
     {
+        this->saveButton->draw();
         char c = GetKeyPressed();
         if(c != 0)
         {
@@ -179,9 +181,9 @@ void Game::drawEditor()
                 this->mapSaveName.pop_back();
             }
         }
-        else if(IsKeyPressed(KEY_ENTER))
+        else if(IsKeyPressed(KEY_ENTER) || this->saveButton->clicked())
         {
-            std::cout<<"Save this shit!"<<std::endl;
+            std::cout<<"Save :"<<this->mapSaveName<<std::endl;
             if(this->mapSaveName.size() > 0 && this->editor->save(this->mapSaveName))
             {
                 this->editor->reset();
