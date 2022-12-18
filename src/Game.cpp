@@ -92,7 +92,7 @@ void Game::drawMenu()
     this->scene->UpdateSystems(GetFrameTime());
     // Draw
     BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(GRAY);
         this->scene->draw();
 
         for(auto& b: this->buttons)
@@ -142,7 +142,7 @@ void Game::drawGame()
    
     // Draw
     BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
         DrawText("DELETE: menu", 190, 200, 20, LIGHTGRAY);
         this->scene->draw();
     EndDrawing();   

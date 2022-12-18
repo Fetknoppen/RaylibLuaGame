@@ -85,7 +85,7 @@ public:
 				{
 					std::string what = "floor";
 					int who = (int)entity;
-					if(meshComp.name == "UBot-OBJ.obj")
+					if(meshComp.name != "cube")
 					{
 						what = "player";				
 					}

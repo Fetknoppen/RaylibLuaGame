@@ -37,7 +37,8 @@ void Scene::draw()
 			Model* modelPtr = this->rsHandler.getModel(meshComp.name);
 			if (modelPtr != nullptr)
 			{
-				DrawModel(*modelPtr, transform.position, transform.scale.x, RED);
+				//DrawModel(*modelPtr, transform.position, transform.scale.x, WHITE);
+				DrawModelEx(*modelPtr, transform.position, {0,1,0}, transform.rotation.y, transform.scale, WHITE);
 				//std::cout<<"Drawing model: "<< meshComp.name <<"\n";
 			}
 			else

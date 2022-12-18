@@ -43,9 +43,15 @@ function player:update(delta)
     end
     if scene.IsKeyDown("A") then
         direction = direction + vector(-1,0,0)
+        trans.rotation = vector(0,90,0)
     end
     if scene.IsKeyDown("D") then
         direction = direction + vector(1,0,0)
+        trans.rotation = vector(0,-90,0)
+    end
+
+    if (not scene.IsKeyDown("D") and not scene.IsKeyDown("A")) then
+        trans.rotation = vector(0,0,0)
     end
 
 
@@ -90,7 +96,7 @@ end
 
 function player:onCollision(who, what)
     --called on collision
-    --print("Collision "..what)
+    print("Collision "..what)
     if what == "player" then
         print("Player: collision with enemy")
         scene.RemoveEntity(who)

@@ -59,8 +59,7 @@ void mapLoader::load(lua_State* L) {
                 break;
             case 2:
                 scene->addBehaviour(L, this->mapEnteties.back(), "enemy.lua");
-                meshComp.name = "UBot-OBJ.obj";
-                trans.scale.x = 0.1f;
+                meshComp.name = "basicCharacter.obj";
                 box.min = {position.x - CELL_SIZE.x/4.0f, position.y - CELL_SIZE.y/4.0f, position.z - CELL_SIZE.x/4.0f};
                 box.max = {position.x + CELL_SIZE.x/4.0f, position.y + CELL_SIZE.y/4.0f, position.z + CELL_SIZE.x/4.0f};
                 break;
