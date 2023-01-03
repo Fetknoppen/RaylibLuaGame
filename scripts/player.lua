@@ -38,7 +38,7 @@ function player:update(delta)
     local trans = scene.GetComponent(entityID, "Transform")
     local direction = vector(0,0,0)
     if (scene.IsKeyPressed("SPACE") and  grounded)then
-        print("JUMP")
+        --print("JUMP")
         jumpVelocity = jumpForce
     end
     if scene.IsKeyDown("A") then
@@ -115,10 +115,18 @@ function player:rayIntersect()
 end
 
 function player:reset()
-    print("RESET")
+    --print("RESET")
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = vector(10, 30, 0)
     scene.SetComponent(entityID, "Transform", trans)
+
+    health = 100
+    jump = false;
+    grounded = false
+    collided = false
+    moveDelta = vector(0,0,0)
+    yVeclocity = 0.0
+    jumpVelocity = 0.0
 end
 
 return player

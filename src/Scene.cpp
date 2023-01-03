@@ -7,12 +7,12 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-	std::cout<<"Scene deconstructor start\n";
+	//std::cout<<"Scene deconstructor start\n";
 	for(auto& s: m_systems)
 	{
 		delete s.second;
 	}
-	std::cout<<"Scene deconstructor end\n";
+	//std::cout<<"Scene deconstructor end\n";
 }
 
 void Scene::init()
@@ -92,11 +92,6 @@ void Scene::RemoveEntity(int entity)
 	if (this->IsEntity(entity)) 
 	{
 		m_registry.destroy((entt::entity)entity);
-	}
-
-	else
-	{
-		std::cout<<"Error: Cant remove invalid entity.\n";
 	}
 }
 

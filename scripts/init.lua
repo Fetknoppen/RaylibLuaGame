@@ -19,6 +19,6 @@ scene.SetComponent(entity, "Transform", trans)
 
 --Position    sizeX    SizeY
 scene.SetComponent(entity, "Collider", trans.position, 10, 10)
-print("Set collider!\n\n")
+--print("Set collider!\n\n")
 
 

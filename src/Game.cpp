@@ -169,21 +169,21 @@ void Game::drawEditor()
         char c = GetKeyPressed();
         if(c != 0)
         {
-            std::cout<<"input char: "<<c<<std::endl;
+            //std::cout<<"input char: "<<c<<std::endl;
             this->mapSaveName += c;
         }
         if(IsKeyPressed(KEY_BACKSPACE))
         {
             if(this->mapSaveName.length() > 0)
             {
-                std::cout<<"Pop\n";
+                //std::cout<<"Pop\n";
                 this->mapSaveName.pop_back();
                 this->mapSaveName.pop_back();
             }
         }
         else if(IsKeyPressed(KEY_ENTER) || this->saveButton->clicked())
         {
-            std::cout<<"Save :"<<this->mapSaveName<<std::endl;
+            //std::cout<<"Save :"<<this->mapSaveName<<std::endl;
             if(this->mapSaveName.size() > 0 && this->editor->save(this->mapSaveName))
             {
                 this->editor->reset();
@@ -253,7 +253,7 @@ void Game::startLevelSelector() {
     }
     this->mapButtons.clear();
 
-    std::cout<<"Starting level selector\n";
+    //std::cout<<"Starting level selector\n";
     int i = 0;
     int x = 0;
     int y = 0;
@@ -277,7 +277,7 @@ void Game::startLevelSelector() {
         i++;
     }
 
-    std::cout<<"Number of buttons: "<<this->mapButtons.size()<<std::endl;
+    //std::cout<<"Number of buttons: "<<this->mapButtons.size()<<std::endl;
 }
 
 void Game::drawLevelSelector() {

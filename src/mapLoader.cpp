@@ -9,18 +9,18 @@ mapLoader::mapLoader(Scene* scene)
 }
 
 mapLoader::~mapLoader() {
-    std::cout<<"Map deconstructor start\n";
-    std::cout<<"Map deconstructor end\n";
+    //std::cout<<"Map deconstructor start\n";
+    //std::cout<<"Map deconstructor end\n";
 }
 
 void mapLoader::load(lua_State* L) {
     std::ifstream cur;
     std::string path = "../Levels/"+this->currentMap;
     cur.open(path);
-    std::cout<<"Trying to load "<<this->currentMap<<std::endl;
+    //std::cout<<"Trying to load "<<this->currentMap<<std::endl;
     if(cur.is_open())
     {
-        std::cout<<"Loading "<<this->currentMap<<std::endl;
+        //std::cout<<"Loading "<<this->currentMap<<std::endl;
         std::string delimiter_space = " ";
         std::string delimiter_comma = ",";
         std::string token;
@@ -44,7 +44,7 @@ void mapLoader::load(lua_State* L) {
             line.erase(0, pos+delimiter_comma.size());
             token = position.z = std::stof(line);
             
-            std::cout<<"Type: "<<type<<" x: "<<position.x<<" y: "<<position.y<<" z: "<<position.z<<std::endl;
+            //std::cout<<"Type: "<<type<<" x: "<<position.x<<" y: "<<position.y<<" z: "<<position.z<<std::endl;
             this->mapEnteties.push_back(this->scene->CreateEntity());
             TransformComponent& trans = this->scene->GetComponent<TransformComponent>(this->mapEnteties.back());
             trans.position = position;

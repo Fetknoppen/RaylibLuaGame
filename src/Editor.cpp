@@ -9,20 +9,20 @@ Editor::Editor(Scene* scene)
 
 Editor::~Editor() 
 {
-    std::cout<<"Editor deconstructor start\n";
-    std::cout<<"Editor deconstructor end\n";
+    //std::cout<<"Editor deconstructor start\n";
+    //std::cout<<"Editor deconstructor end\n";
 }
 
 void Editor::update() {
 
     if(IsKeyPressed(KEY_ONE))
     {
-        std::cout<<"Block selected\n";
+        //std::cout<<"Block selected\n";
         this->currentType = 1;
     }
     else if(IsKeyPressed(KEY_TWO))
     {
-        std::cout<<"Enemy selected\n";
+        //std::cout<<"Enemy selected\n";
         this->currentType = 2;
     }
     else if(IsKeyPressed(KEY_C))
@@ -43,13 +43,13 @@ void Editor::update() {
             {
                 c.used = true;
                 c.type = this->currentType;
-                std::cout<<"Block changed\n";
+                //std::cout<<"Block changed\n";
             }
             else if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT) && c.used)
             {
                 c.used = false;
                 c.type = 0;
-                std::cout<<"Block changed\n";
+                //std::cout<<"Block changed\n";
             }
         }
     }
@@ -63,7 +63,7 @@ void Editor::draw() {
 }
 
 void Editor::setUpGrid() {
-    std::cout<<"X: "<<this->gridSizeX<<" Y: "<<this->gridSizeY<<std::endl;
+    //std::cout<<"X: "<<this->gridSizeX<<" Y: "<<this->gridSizeY<<std::endl;
     for(int x = 0; x < this->gridSizeX; x++)
     {
         for(int y = 0; y < this->gridSizeY; y++)

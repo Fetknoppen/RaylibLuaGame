@@ -84,7 +84,8 @@ function enemy:onCollision(who, what)
     --called on collision
     --print("Collision "..what)
     if what == "player" then
-        print("Enemy: Hit player")
+        print(" ")
+        --print("Enemy: Hit player")
         --scene.RemoveEntity(entityID)
     else 
         local trans = scene.GetComponent(entityID, "Transform")
@@ -104,7 +105,7 @@ end
 
 
 function enemy:reset()
-    print("RESET")
+    --print("RESET")
     local trans = scene.GetComponent(entityID, "Transform")
     trans.position = vector(10, 30, 0)
     scene.SetComponent(entityID, "Transform", trans)
