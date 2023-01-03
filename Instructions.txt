@@ -1,9 +1,11 @@
 Linux:
 	Requirements
-		Install required tools
+		Install required tools (cmake and git)
+		Example:
 			sudo apt install cmake
 			sudo apt install build-essential git
 		Install required libraries
+		Example:
 			sudo apt install libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
 	To build and run on linux:
 		execute build.sh
