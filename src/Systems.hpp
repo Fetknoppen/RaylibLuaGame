@@ -30,10 +30,13 @@ public:
 		auto view = registry.view<Behaviour>();
 
 		view.each([&](Behaviour& script){
+			//Retrieve the behaviour table to the top of the stack
 			lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);
-
+			//Get the function from the table
 			lua_getfield(L, -1, "update");
+			//Push table as first argument
 			lua_pushvalue(L, -2);
+			//Push rest of arguments
 			lua_pushnumber(L, delta);
 
 			if(lua_pcall(L, 2, 0, 0) != LUA_OK){
@@ -91,10 +94,13 @@ public:
 					}
 					
 					//std::cout<<"Collision!\n";
+					//Retrieve the behaviour table to the top of the stack
 					lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);
-
+					//Get the onCollsion function from the table
 					lua_getfield(L, -1, "onCollision");
+					//Push table as first argument
 					lua_pushvalue(L, -2);
+					//Push rest of arguments
 					lua_pushinteger(L, who);
 					lua_pushstring(L, what.c_str());
 
@@ -166,9 +172,11 @@ public:
 						}
 						if(grounded)
 						{
+							//Retrieve the behaviour table to the top of the stack
 							lua_rawgeti(L, LUA_REGISTRYINDEX, script.luaRef);
-
+							//Retrieve the rayIntersect method from the table
 							lua_getfield(L, -1, "rayIntersect");
+							//Push the table as the first argument to the method
 							lua_pushvalue(L, -2);
 
 							if(lua_pcall(L, 1, 0, 0) != LUA_OK){
